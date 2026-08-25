@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yecla ⚽ Clausura 2026</title>
+<style>
+  :root{
+    --bg:#0e1116; --card:#161b22; --line:#232a34; --txt:#e6edf3; --mut:#8b949e;
+    --accent:#e63946; --accent2:#f1a208; --home:#2ea043; --ok:#238636;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:720px;margin:0 auto;padding:24px 16px 64px}
+  header{text-align:center;padding:28px 0 8px}
+  .crest{font-size:52px;line-height:1}
+  h1{margin:.2em 0 .1em;font-size:1.7rem;letter-spacing:.5px}
+  .sub{color:var(--mut);font-size:.95rem;margin:0}
+  .cta{display:flex;flex-direction:column;gap:10px;margin:24px 0 8px}
+  .btn{display:flex;align-items:center;justify-content:center;gap:10px;
+    padding:15px 16px;border-radius:12px;text-decoration:none;font-weight:600;
+    font-size:1.02rem;border:1px solid var(--line);color:var(--txt);background:var(--card)}
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+  .btn.apple{background:#111;border-color:#333}
+  .btn small{font-weight:400;color:rgba(255,255,255,.7)}
+  .hint{color:var(--mut);font-size:.82rem;text-align:center;margin:6px 4px 0}
+  .note{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--accent2);
+    border-radius:10px;padding:12px 14px;margin:22px 0;font-size:.9rem;color:var(--mut)}
+  h2{font-size:1.05rem;margin:30px 0 10px;color:var(--mut);text-transform:uppercase;letter-spacing:1px}
+  table{width:100%;border-collapse:collapse;font-size:.92rem}
+  th,td{padding:10px 8px;text-align:left;border-bottom:1px solid var(--line)}
+  th{color:var(--mut);font-weight:600;font-size:.78rem;text-transform:uppercase}
+  td.date{white-space:nowrap;color:var(--mut)}
+  .tag{font-size:.7rem;padding:2px 7px;border-radius:20px;font-weight:700}
+  .tag.home{background:rgba(46,160,67,.15);color:#3fb950;border:1px solid rgba(46,160,67,.4)}
+  .tag.away{background:rgba(240,162,8,.12);color:var(--accent2);border:1px solid rgba(240,162,8,.35)}
+  .tag.bye{background:#21262d;color:var(--mut);border:1px solid var(--line)}
+  .yecla{font-weight:700;color:#fff}
+  .time{font-variant-numeric:tabular-nums}
+  footer{text-align:center;color:var(--mut);font-size:.78rem;margin-top:40px}
+  a{color:var(--accent2)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="crest">⚽</div>
+    <h1>YECLA</h1>
+    <p class="sub">Segunda División · Clausura 2026 · Campos de Fútbol Rancho Viejo</p>
+  </header>
+
+  <div class="cta">
+    <a class="btn primary" id="google" href="#">📅 Añadir a Google Calendar</a>
+    <a class="btn apple" id="apple" href="#">🍎 Añadir a Apple / iPhone <small>(webcal)</small></a>
+    <a class="btn" id="download" href="yecla-clausura-2026.ics" download>⬇️ Descargar archivo .ics</a>
+  </div>
+  <p class="hint">Suscríbete una vez y los partidos aparecen en tu teléfono con recordatorios.<br>
+  Si la liga cambia un horario, tu calendario se actualiza solo.</p>
+
+  <div class="note">
+    ⚠️ <b>Jornada 15 (5 dic)</b>: hora y campo <b>por confirmar</b> por la liga — aparece como evento de todo el día hasta que se publique.
+    <b>Jornada 2 (29 ago)</b>: descanso, Yecla no juega.
+  </div>
+
+  <h2>Calendario de partidos</h2>
+  <table>
+    <thead><tr><th>Fecha</th><th>Partido</th><th>Hora</th><th>Campo</th></tr></thead>
+    <tbody>
+      <tr><td class="date">Sáb 29 Ago</td><td><span class="tag bye">Descanso</span> Yecla no juega</td><td>—</td><td>—</td></tr>
+      <tr><td class="date">Sáb 5 Sep</td><td>Almería vs <span class="yecla">Yecla</span> <span class="tag away">Fuera</span></td><td class="time">11:00</td><td>1</td></tr>
+      <tr><td class="date">Sáb 12 Sep</td><td>Canarias vs <span class="yecla">Yecla</span> <span class="tag away">Fuera</span></td><td class="time">09:00</td><td>2</td></tr>
+      <tr><td class="date">Sáb 19 Sep</td><td>Euskal Herria vs <span class="yecla">Yecla</span> <span class="tag away">Fuera</span></td><td class="time">09:00</td><td>1</td></tr>
+      <tr><td class="date">Sáb 26 Sep</td><td>Mixcoac vs <span class="yecla">Yecla</span> <span class="tag away">Fuera</span></td><td class="time">11:00</td><td>8</td></tr>
+      <tr><td class="date">Sáb 3 Oct</td><td><span class="yecla">Yecla</span> vs Triana <span class="tag home">Casa</span></td><td class="time">09:00</td><td>3</td></tr>
+      <tr><td class="date">Sáb 10 Oct</td><td>Villareal vs <span class="yecla">Yecla</span> <span class="tag away">Fuera</span></td><td class="time">09:00</td><td>4</td></tr>
+      <tr><td class="date">Sáb 17 Oct</td><td>Málaga vs <span class="yecla">Yecla</span> <span class="tag away">Fuera</span></td><td class="time">09:00</td><td>8</td></tr>
+      <tr><td class="date">Sáb 24 Oct</td><td>Amorebieta vs <span class="yecla">Yecla</span> <span class="tag away">Fuera</span></td><td class="time">09:00</td><td>6</td></tr>
+      <tr><td class="date">Sáb 31 Oct</td><td>Pamplona vs <span class="yecla">Yecla</span> <span class="tag away">Fuera</span></td><td class="time">11:00</td><td>1</td></tr>
+      <tr><td class="date">Sáb 7 Nov</td><td>Matalascañas vs <span class="yecla">Yecla</span> <span class="tag away">Fuera</span></td><td class="time">09:00</td><td>3</td></tr>
+      <tr><td class="date">Sáb 21 Nov</td><td>Sahara vs <span class="yecla">Yecla</span> <span class="tag away">Fuera</span></td><td class="time">11:00</td><td>2</td></tr>
+      <tr><td class="date">Sáb 28 Nov</td><td>Palma vs <span class="yecla">Yecla</span> <span class="tag away">Fuera</span></td><td class="time">11:00</td><td>3</td></tr>
+      <tr><td class="date">Sáb 5 Dic</td><td>Cantabria vs <span class="yecla">Yecla</span> <span class="tag away">Fuera</span></td><td class="time">TBD</td><td>—</td></tr>
+    </tbody>
+  </table>
+
+  <footer>
+    📍 <a href="https://maps.app.goo.gl/B4cWEGksTeKQV8dq7">Campos de Fútbol Rancho Viejo</a><br>
+    Calendario no oficial mantenido por el equipo · Horarios sujetos a cambios de la liga
+  </footer>
+</div>
+
+<script>
+  // Build subscribe links from the page's own location so they work at any host.
+  var base = location.href.replace(/index\.html.*$/, "").replace(/[?#].*$/, "");
+  if (!base.endsWith("/")) base += "/";
+  var icsHttps = base + "yecla-clausura-2026.ics";
+  var icsWebcal = icsHttps.replace(/^https?:/, "webcal:");
+  document.getElementById("apple").href = icsWebcal;
+  document.getElementById("google").href =
+    "https://calendar.google.com/calendar/r?cid=" + encodeURIComponent(icsWebcal);
+  document.getElementById("download").href = icsHttps;
+</script>
+</body>
+</html>
