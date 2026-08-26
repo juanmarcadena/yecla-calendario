@@ -326,9 +326,12 @@
      Source priority: Cloudinary (team uploads) if configured, else the repo /photos folder.
      Fill in CLOUD / PRESET / PIN below to turn on team uploads. */
   var CLOUD="ik3gl0ob";       // Cloudinary cloud name
-  var PRESET="peyoteros_web"; // unsigned upload preset name
+  var PRESET="peyoteros_web"; // unsigned upload preset name (used only when WORKER_URL is empty)
   var TAG="peyoteros";        // tag applied to uploads & used to list them
-  var PIN="peyoteros2026";    // team PIN (client-side gate — a speed bump, not real security)
+  var PIN="peyoteros2026";    // team PIN for the UNSIGNED fallback (client-side only)
+  // --- Secure signed uploads (real lock): set WORKER_URL to your Cloudflare Worker to enable ---
+  var WORKER_URL="";          // e.g. "https://peyoteros-signer.xxxx.workers.dev"
+  var APIKEY="363733675397172"; // Cloudinary API key (public; not the secret)
 
   var GH_API="https://api.github.com/repos/juanmarcadena/yecla-calendario/contents/photos";
   var IMG_RE=/\.(jpe?g|png|webp|gif|avif)$/i;
@@ -403,22 +406,39 @@
   load();
 
   // team upload via Cloudinary widget (only if configured)
-  if(CLOUD && PRESET && upBtn){
+  if(CLOUD && (PRESET || WORKER_URL) && upBtn){
     upBtn.hidden=false;
     upBtn.addEventListener("click",function(){
       var entered=prompt("PIN del equipo para subir una foto:");
       if(entered===null) return;
-      if(PIN && entered.trim()!==PIN){ alert("PIN incorrecto."); return; }
-      openUploader();
+      entered=entered.trim();
+      if(WORKER_URL){
+        openUploader(entered);            // signed mode: the Worker validates the PIN server-side
+      } else {
+        if(PIN && entered!==PIN){ alert("PIN incorrecto."); return; }
+        openUploader(null);               // unsigned fallback
+      }
     });
   }
-  function openUploader(){
+  function openUploader(pin){
     function go(){
-      var w=window.cloudinary.createUploadWidget({
-        cloudName:CLOUD, uploadPreset:PRESET, tags:[TAG],
-        sources:["local","camera"], multiple:true, maxFiles:10,
-        clientAllowedFormats:["image"], maxImageFileSize:15000000, cropping:false
-      }, function(err,result){
+      var opts={ cloudName:CLOUD, tags:[TAG], sources:["local","camera"],
+        multiple:true, maxFiles:10, clientAllowedFormats:["image"],
+        maxImageFileSize:15000000, cropping:false };
+      if(WORKER_URL){
+        // Secure signed flow: page never holds the secret; the Worker signs after checking the PIN.
+        opts.apiKey=APIKEY;
+        opts.uploadSignature=function(cb, params){
+          fetch(WORKER_URL,{method:"POST",headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({password:pin, params:params})})
+            .then(function(r){ if(!r.ok) throw new Error("unauth"); return r.json(); })
+            .then(function(d){ cb(d.signature); })
+            .catch(function(){ alert("PIN incorrecto o no se pudo firmar la subida."); });
+        };
+      } else {
+        opts.uploadPreset=PRESET;         // unsigned fallback
+      }
+      var w=window.cloudinary.createUploadWidget(opts, function(err,result){
         if(!err && result && result.event==="success"){
           var u=cldUrl(result.info.public_id, result.info.format);
           if(state.urls.indexOf(u)===-1) render([u].concat(state.urls)); // optimistic
