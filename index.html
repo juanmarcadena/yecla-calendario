@@ -123,6 +123,30 @@
   tr.byerow td{color:var(--mut)}
   .tbd{color:var(--red-lt);font-weight:700;font-size:.82rem}
 
+  /* photo carousel */
+  .carousel{position:relative;margin-top:4px}
+  .car-track{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;
+    scroll-behavior:smooth;border-radius:16px;scrollbar-width:none;outline:none}
+  .car-track::-webkit-scrollbar{display:none}
+  .car-track:focus-visible{box-shadow:0 0 0 3px var(--blue-lt)}
+  .slide{flex:0 0 100%;scroll-snap-align:center;aspect-ratio:4/3;border-radius:16px;
+    overflow:hidden;background:var(--card2);border:1px solid var(--line)}
+  .slide img{width:100%;height:100%;object-fit:cover;display:block}
+  .car-loading,.car-empty{flex:0 0 100%;aspect-ratio:4/3;display:flex;align-items:center;
+    justify-content:center;text-align:center;padding:24px;color:var(--mut);font-size:.9rem;
+    background:var(--card2);border:1px solid var(--line);border-radius:16px}
+  .car-nav{position:absolute;top:calc(50% - 20px);transform:translateY(-50%);
+    width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;color:#fff;
+    font-size:1.5rem;line-height:1;display:flex;align-items:center;justify-content:center;
+    background:rgba(11,24,38,.72);backdrop-filter:blur(4px);
+    -webkit-backdrop-filter:blur(4px);transition:background .15s ease,opacity .15s ease}
+  .car-nav:hover{background:rgba(11,24,38,.92)}
+  .car-nav.prev{left:8px}.car-nav.next{right:8px}
+  .car-dots{display:flex;justify-content:center;flex-wrap:wrap;gap:6px;margin-top:12px}
+  .car-dots button{width:7px;height:7px;padding:0;border:none;border-radius:50%;
+    background:var(--line);cursor:pointer;transition:width .2s ease,background .2s ease}
+  .car-dots button[aria-current="true"]{background:var(--blue-lt);width:20px;border-radius:4px}
+
   footer{text-align:center;color:var(--mut);font-size:.8rem;margin-top:36px;
     border-top:1px solid var(--line);padding-top:18px}
   footer a{color:var(--blue-lt)}
@@ -218,6 +242,16 @@
     </tbody>
   </table>
 
+  <h3 class="section">📸 Galería del equipo</h3>
+  <div class="carousel" id="gallery" aria-roledescription="carrusel" aria-label="Fotos del equipo">
+    <div class="car-track" id="carTrack" tabindex="0">
+      <div class="car-loading">Cargando fotos…</div>
+    </div>
+    <button class="car-nav prev" id="carPrev" aria-label="Foto anterior" hidden>‹</button>
+    <button class="car-nav next" id="carNext" aria-label="Foto siguiente" hidden>›</button>
+    <div class="car-dots" id="carDots"></div>
+  </div>
+
   <footer>
     📍 <a href="https://maps.app.goo.gl/B4cWEGksTeKQV8dq7" target="_blank" rel="noopener">Campos de Fútbol Rancho Viejo</a>
     <div class="socials sm" aria-label="Redes sociales">
@@ -278,6 +312,85 @@
     document.getElementById("hero-when").innerHTML='⏱ <span class="cd">'+when+'</span>';
     hero.hidden=false;
   }
+
+  /* ---------- Photo carousel ----------
+     Auto-lists images in the repo's /photos folder via the GitHub API.
+     To add a photo: upload any .jpg/.png/.webp to that folder — it appears here. */
+  var GH_API="https://api.github.com/repos/juanmarcadena/yecla-calendario/contents/photos";
+  var IMG_RE=/\.(jpe?g|png|webp|gif|avif)$/i;
+  var track=document.getElementById("carTrack");
+  var dotsEl=document.getElementById("carDots");
+  var prevBtn=document.getElementById("carPrev");
+  var nextBtn=document.getElementById("carNext");
+
+  function showEmpty(){
+    track.innerHTML='<div class="car-empty">Aún no hay fotos.<br>Sube imágenes a la carpeta <b>/photos</b> y aparecerán aquí. 📷</div>';
+  }
+
+  function buildCarousel(names){
+    if(!names.length){ showEmpty(); return; }
+    track.innerHTML="";
+    names.forEach(function(name,i){
+      var slide=document.createElement("div");
+      slide.className="slide";
+      var img=document.createElement("img");
+      img.loading="lazy";
+      img.decoding="async";
+      img.alt="Foto del equipo "+(i+1);
+      img.src="photos/"+encodeURIComponent(name);
+      slide.appendChild(img);
+      track.appendChild(slide);
+    });
+    // dots
+    dotsEl.innerHTML="";
+    var dots=names.map(function(_,i){
+      var b=document.createElement("button");
+      b.type="button";
+      b.setAttribute("aria-label","Ir a la foto "+(i+1));
+      if(i===0) b.setAttribute("aria-current","true");
+      b.addEventListener("click",function(){ scrollToIndex(i); });
+      dotsEl.appendChild(b);
+      return b;
+    });
+    var count=names.length;
+    if(count>1){ prevBtn.hidden=false; nextBtn.hidden=false; }
+
+    function currentIndex(){
+      return Math.round(track.scrollLeft/track.clientWidth);
+    }
+    function scrollToIndex(i){
+      i=Math.max(0,Math.min(count-1,i));
+      track.scrollTo({left:i*track.clientWidth,behavior:"smooth"});
+    }
+    function sync(){
+      var idx=currentIndex();
+      dots.forEach(function(d,i){
+        if(i===idx) d.setAttribute("aria-current","true"); else d.removeAttribute("aria-current");
+      });
+      prevBtn.disabled=(idx<=0);
+      nextBtn.disabled=(idx>=count-1);
+    }
+    prevBtn.addEventListener("click",function(){ scrollToIndex(currentIndex()-1); });
+    nextBtn.addEventListener("click",function(){ scrollToIndex(currentIndex()+1); });
+    track.addEventListener("keydown",function(e){
+      if(e.key==="ArrowRight"){ e.preventDefault(); scrollToIndex(currentIndex()+1); }
+      if(e.key==="ArrowLeft"){ e.preventDefault(); scrollToIndex(currentIndex()-1); }
+    });
+    var t; track.addEventListener("scroll",function(){ clearTimeout(t); t=setTimeout(sync,80); });
+    window.addEventListener("resize",function(){ scrollToIndex(currentIndex()); });
+    sync();
+  }
+
+  fetch(GH_API,{headers:{Accept:"application/vnd.github+json"}})
+    .then(function(r){ return r.ok ? r.json() : []; })
+    .then(function(items){
+      var names=(Array.isArray(items)?items:[])
+        .filter(function(f){ return f.type==="file" && IMG_RE.test(f.name); })
+        .map(function(f){ return f.name; })
+        .sort(function(a,b){ return b.localeCompare(a); }); // newest-named first
+      buildCarousel(names);
+    })
+    .catch(showEmpty);
 })();
 </script>
 </body>
