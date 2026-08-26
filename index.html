@@ -124,6 +124,12 @@
   .tbd{color:var(--red-lt);font-weight:700;font-size:.82rem}
 
   /* photo carousel */
+  .section-row{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .section-row .section{margin-bottom:10px}
+  .upload-btn{border:1px solid var(--line);background:var(--card);color:var(--ink);
+    border-radius:10px;padding:9px 13px;font-weight:700;font-size:.82rem;cursor:pointer;
+    min-height:40px;white-space:nowrap;transition:border-color .15s ease,color .15s ease,background .15s ease}
+  .upload-btn:hover,.upload-btn:focus-visible{border-color:var(--blue-lt);color:#fff;background:var(--blue-deep)}
   .carousel{position:relative;margin-top:4px}
   .car-track{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;
     scroll-behavior:smooth;border-radius:16px;scrollbar-width:none;outline:none}
@@ -242,7 +248,10 @@
     </tbody>
   </table>
 
-  <h3 class="section">📸 Galería del equipo</h3>
+  <div class="section-row">
+    <h3 class="section">📸 Galería del equipo</h3>
+    <button class="upload-btn" id="uploadBtn" type="button" hidden>📤 Subir foto</button>
+  </div>
   <div class="carousel" id="gallery" aria-roledescription="carrusel" aria-label="Fotos del equipo">
     <div class="car-track" id="carTrack" tabindex="0">
       <div class="car-loading">Cargando fotos…</div>
@@ -313,84 +322,117 @@
     hero.hidden=false;
   }
 
-  /* ---------- Photo carousel ----------
-     Auto-lists images in the repo's /photos folder via the GitHub API.
-     To add a photo: upload any .jpg/.png/.webp to that folder — it appears here. */
+  /* ---------- Photo carousel + team upload ----------
+     Source priority: Cloudinary (team uploads) if configured, else the repo /photos folder.
+     Fill in CLOUD / PRESET / PIN below to turn on team uploads. */
+  var CLOUD="";            // Cloudinary cloud name (set after signup), e.g. "peyoteros"
+  var PRESET="";           // unsigned upload preset name, e.g. "peyoteros_web"
+  var TAG="peyoteros";     // tag applied to uploads & used to list them
+  var PIN="";              // team PIN (client-side gate — a speed bump, not real security)
+
   var GH_API="https://api.github.com/repos/juanmarcadena/yecla-calendario/contents/photos";
   var IMG_RE=/\.(jpe?g|png|webp|gif|avif)$/i;
   var track=document.getElementById("carTrack");
   var dotsEl=document.getElementById("carDots");
   var prevBtn=document.getElementById("carPrev");
   var nextBtn=document.getElementById("carNext");
+  var upBtn=document.getElementById("uploadBtn");
+  var state={urls:[],count:0};
 
   function showEmpty(){
-    track.innerHTML='<div class="car-empty">Aún no hay fotos.<br>Sube imágenes a la carpeta <b>/photos</b> y aparecerán aquí. 📷</div>';
+    track.innerHTML='<div class="car-empty">Aún no hay fotos.<br>'+
+      (CLOUD?'Toca <b>📤 Subir foto</b> para agregar la primera. 📷':'Pronto: fotos del equipo. 📷')+'</div>';
+    prevBtn.hidden=true; nextBtn.hidden=true; dotsEl.innerHTML="";
   }
-
-  function buildCarousel(names){
-    if(!names.length){ showEmpty(); return; }
-    track.innerHTML="";
-    names.forEach(function(name,i){
-      var slide=document.createElement("div");
-      slide.className="slide";
+  function currentIndex(){ return Math.round(track.scrollLeft/track.clientWidth); }
+  function scrollToIndex(i){ i=Math.max(0,Math.min(state.count-1,i)); track.scrollTo({left:i*track.clientWidth,behavior:"smooth"}); }
+  function sync(){
+    var idx=currentIndex(), ds=dotsEl.children;
+    for(var i=0;i<ds.length;i++){ if(i===idx) ds[i].setAttribute("aria-current","true"); else ds[i].removeAttribute("aria-current"); }
+    prevBtn.disabled=(idx<=0); nextBtn.disabled=(idx>=state.count-1);
+  }
+  function render(urls){
+    state.urls=urls.slice(); state.count=urls.length;
+    if(!urls.length){ showEmpty(); return; }
+    track.innerHTML=""; dotsEl.innerHTML="";
+    urls.forEach(function(u,i){
+      var s=document.createElement("div"); s.className="slide";
       var img=document.createElement("img");
-      img.loading="lazy";
-      img.decoding="async";
-      img.alt="Foto del equipo "+(i+1);
-      img.src="photos/"+encodeURIComponent(name);
-      slide.appendChild(img);
-      track.appendChild(slide);
-    });
-    // dots
-    dotsEl.innerHTML="";
-    var dots=names.map(function(_,i){
-      var b=document.createElement("button");
-      b.type="button";
+      img.loading=(i>0?"lazy":"eager"); img.decoding="async";
+      img.alt="Foto del equipo "+(i+1); img.src=u;
+      s.appendChild(img); track.appendChild(s);
+      var b=document.createElement("button"); b.type="button";
       b.setAttribute("aria-label","Ir a la foto "+(i+1));
       if(i===0) b.setAttribute("aria-current","true");
-      b.addEventListener("click",function(){ scrollToIndex(i); });
+      (function(idx){ b.addEventListener("click",function(){ scrollToIndex(idx); }); })(i);
       dotsEl.appendChild(b);
-      return b;
     });
-    var count=names.length;
-    if(count>1){ prevBtn.hidden=false; nextBtn.hidden=false; }
-
-    function currentIndex(){
-      return Math.round(track.scrollLeft/track.clientWidth);
-    }
-    function scrollToIndex(i){
-      i=Math.max(0,Math.min(count-1,i));
-      track.scrollTo({left:i*track.clientWidth,behavior:"smooth"});
-    }
-    function sync(){
-      var idx=currentIndex();
-      dots.forEach(function(d,i){
-        if(i===idx) d.setAttribute("aria-current","true"); else d.removeAttribute("aria-current");
-      });
-      prevBtn.disabled=(idx<=0);
-      nextBtn.disabled=(idx>=count-1);
-    }
-    prevBtn.addEventListener("click",function(){ scrollToIndex(currentIndex()-1); });
-    nextBtn.addEventListener("click",function(){ scrollToIndex(currentIndex()+1); });
-    track.addEventListener("keydown",function(e){
-      if(e.key==="ArrowRight"){ e.preventDefault(); scrollToIndex(currentIndex()+1); }
-      if(e.key==="ArrowLeft"){ e.preventDefault(); scrollToIndex(currentIndex()-1); }
-    });
-    var t; track.addEventListener("scroll",function(){ clearTimeout(t); t=setTimeout(sync,80); });
-    window.addEventListener("resize",function(){ scrollToIndex(currentIndex()); });
+    prevBtn.hidden=nextBtn.hidden=(urls.length<2);
     sync();
   }
+  prevBtn.addEventListener("click",function(){ scrollToIndex(currentIndex()-1); });
+  nextBtn.addEventListener("click",function(){ scrollToIndex(currentIndex()+1); });
+  track.addEventListener("keydown",function(e){
+    if(e.key==="ArrowRight"){ e.preventDefault(); scrollToIndex(currentIndex()+1); }
+    if(e.key==="ArrowLeft"){ e.preventDefault(); scrollToIndex(currentIndex()-1); }
+  });
+  var _t; track.addEventListener("scroll",function(){ clearTimeout(_t); _t=setTimeout(sync,80); });
+  window.addEventListener("resize",function(){ scrollToIndex(currentIndex()); });
 
-  fetch(GH_API,{headers:{Accept:"application/vnd.github+json"}})
-    .then(function(r){ return r.ok ? r.json() : []; })
-    .then(function(items){
-      var names=(Array.isArray(items)?items:[])
-        .filter(function(f){ return f.type==="file" && IMG_RE.test(f.name); })
-        .map(function(f){ return f.name; })
-        .sort(function(a,b){ return b.localeCompare(a); }); // newest-named first
-      buildCarousel(names);
-    })
-    .catch(showEmpty);
+  function fromGitHub(){
+    return fetch(GH_API,{headers:{Accept:"application/vnd.github+json"}})
+      .then(function(r){ return r.ok?r.json():[]; })
+      .then(function(items){
+        return (Array.isArray(items)?items:[])
+          .filter(function(f){ return f.type==="file" && IMG_RE.test(f.name); })
+          .map(function(f){ return "photos/"+encodeURIComponent(f.name); })
+          .sort(function(a,b){ return b.localeCompare(a); });
+      });
+  }
+  function cldUrl(pid,fmt){ return "https://res.cloudinary.com/"+CLOUD+"/image/upload/f_auto,q_auto,c_limit,w_1600/"+pid+(fmt?("."+fmt):""); }
+  function fromCloudinary(){
+    return fetch("https://res.cloudinary.com/"+CLOUD+"/image/list/"+TAG+".json")
+      .then(function(r){ return r.ok?r.json():{resources:[]}; })
+      .then(function(d){
+        return (d.resources||[]).slice()
+          .sort(function(a,b){ return (b.created_at||"").localeCompare(a.created_at||""); })
+          .map(function(x){ return cldUrl(x.public_id,x.format); });
+      });
+  }
+  function load(){ (CLOUD?fromCloudinary():fromGitHub()).then(render).catch(showEmpty); }
+  load();
+
+  // team upload via Cloudinary widget (only if configured)
+  if(CLOUD && PRESET && upBtn){
+    upBtn.hidden=false;
+    upBtn.addEventListener("click",function(){
+      var entered=prompt("PIN del equipo para subir una foto:");
+      if(entered===null) return;
+      if(PIN && entered.trim()!==PIN){ alert("PIN incorrecto."); return; }
+      openUploader();
+    });
+  }
+  function openUploader(){
+    function go(){
+      var w=window.cloudinary.createUploadWidget({
+        cloudName:CLOUD, uploadPreset:PRESET, tags:[TAG],
+        sources:["local","camera"], multiple:true, maxFiles:10,
+        clientAllowedFormats:["image"], maxImageFileSize:15000000, cropping:false
+      }, function(err,result){
+        if(!err && result && result.event==="success"){
+          var u=cldUrl(result.info.public_id, result.info.format);
+          if(state.urls.indexOf(u)===-1) render([u].concat(state.urls)); // optimistic
+          setTimeout(load, 4000); // resync canonical list
+        }
+      });
+      w.open();
+    }
+    if(window.cloudinary && window.cloudinary.createUploadWidget){ go(); return; }
+    var s=document.createElement("script");
+    s.src="https://upload-widget.cloudinary.com/global/all.js";
+    s.onload=go; s.onerror=function(){ alert("No se pudo cargar el cargador de fotos. Revisa tu conexión."); };
+    document.body.appendChild(s);
+  }
 })();
 </script>
 </body>
