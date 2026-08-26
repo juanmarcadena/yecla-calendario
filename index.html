@@ -87,15 +87,20 @@
   details .body ol{margin:6px 0 0;padding-left:20px}
   details .body li{margin:4px 0}
 
-  /* socials */
-  .social{margin:22px 0 4px;text-align:center}
-  .ig-btn{display:inline-flex;align-items:center;gap:11px;padding:13px 22px;min-height:50px;
-    border-radius:14px;color:#fff;font-weight:800;text-decoration:none;font-size:1.02rem;
-    background:linear-gradient(105deg,#feda75 0%,#fa7e1e 25%,#d62976 55%,#962fbf 80%,#4f5bd5 100%);
-    box-shadow:0 6px 18px rgba(214,41,118,.38)}
-  .ig-btn:hover{filter:brightness(1.05)}
-  .ig-btn svg{width:23px;height:23px;fill:#fff;flex:none}
-  .ig-btn small{font-weight:500;opacity:.92}
+  /* social icons — quiet & secondary; never competes with the Subscribe CTA */
+  .socials{display:flex;justify-content:center;gap:12px;margin-top:16px}
+  .socials a{display:inline-flex;align-items:center;justify-content:center;
+    width:42px;height:42px;border-radius:50%;border:1px solid var(--line);
+    background:var(--card);color:var(--mut);text-decoration:none;
+    transition:transform .12s ease,color .15s ease,background .15s ease,border-color .15s ease}
+  .socials a:hover,.socials a:focus-visible{transform:translateY(-2px)}
+  .socials a svg{width:20px;height:20px;fill:currentColor}
+  .socials a.ig:hover,.socials a.ig:focus-visible{color:#fff;border-color:transparent;
+    background:linear-gradient(105deg,#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5)}
+  .socials a.wa:hover,.socials a.wa:focus-visible{color:#fff;border-color:transparent;background:#25d366}
+  .socials.sm{margin-top:12px;gap:10px}
+  .socials.sm a{width:36px;height:36px}
+  .socials.sm a svg{width:17px;height:17px}
 
   h3.section{font-size:.8rem;margin:30px 4px 10px;color:var(--mut);
     text-transform:uppercase;letter-spacing:1.5px}
@@ -133,6 +138,16 @@
     <img class="logo" src="logo.png" alt="Escudo de los Peyoteros: flor de peyote con estrella roja sobre fondo azul">
     <div class="wordmark">PEYOTEROS</div>
     <p class="tagline">Compiten como <b>Yecla</b> · Segunda División · <b>Clausura 2026</b></p>
+    <div class="socials" aria-label="Redes sociales">
+      <a class="ig" href="https://www.instagram.com/peyoterosdesonora/" target="_blank" rel="noopener" aria-label="Instagram @peyoterosdesonora">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s0 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58 0-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23C2.2 15.58 2.2 15.2 2.2 12s0-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.2 8.8 2.2 12 2.2Zm0 1.98c-3.15 0-3.5.01-4.74.07-.89.04-1.37.19-1.69.31-.43.17-.73.36-1.05.68-.32.32-.51.62-.68 1.05-.12.32-.27.8-.31 1.69-.06 1.24-.07 1.59-.07 4.74s.01 3.5.07 4.74c.04.89.19 1.37.31 1.69.17.43.36.73.68 1.05.32.32.62.51 1.05.68.32.12.8.27 1.69.31 1.24.06 1.59.07 4.74.07s3.5-.01 4.74-.07c.89-.04 1.37-.19 1.69-.31.43-.17.73-.36 1.05-.68.32-.32.51-.62.68-1.05.12-.32.27-.8.31-1.69.06-1.24.07-1.59.07-4.74s-.01-3.5-.07-4.74c-.04-.89-.19-1.37-.31-1.69-.17-.43-.36-.73-.68-1.05-.32-.32-.62-.51-1.05-.68-.32-.12-.8-.27-1.69-.31-1.24-.06-1.59-.07-4.74-.07Zm0 3.38a5.05 5.05 0 1 1 0 10.1 5.05 5.05 0 0 1 0-10.1Zm0 1.98a3.07 3.07 0 1 0 0 6.14 3.07 3.07 0 0 0 0-6.14Zm5.27-3.15a1.18 1.18 0 1 1 0 2.36 1.18 1.18 0 0 1 0-2.36Z"/></svg>
+      </a>
+      <!-- WhatsApp: activar cuando tengamos el link del grupo (chat.whatsapp.com/…)
+      <a class="wa" href="WHATSAPP_INVITE_URL" target="_blank" rel="noopener" aria-label="Grupo de WhatsApp">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.48 1.34 5L2 22l5.16-1.35a9.9 9.9 0 0 0 4.88 1.28h.01c5.5 0 9.96-4.46 9.96-9.96 0-2.66-1.04-5.16-2.92-7.04A9.9 9.9 0 0 0 12.04 2Zm0 1.98a7.94 7.94 0 0 1 5.64 2.34 7.9 7.9 0 0 1 2.34 5.64c0 4.4-3.58 7.98-7.98 7.98a7.9 7.9 0 0 1-4.06-1.12l-.29-.17-3.06.8.82-2.98-.19-.31a7.9 7.9 0 0 1-1.22-4.22c0-4.4 3.58-7.98 7.98-7.98ZM8.53 6.85c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.6.13.17 1.77 2.8 4.37 3.82 2.16.85 2.6.68 3.07.64.47-.04 1.52-.62 1.73-1.22.21-.6.21-1.11.15-1.22-.06-.11-.23-.17-.48-.29-.25-.12-1.52-.75-1.75-.84-.23-.08-.4-.12-.57.12-.17.25-.65.84-.8 1.01-.15.17-.29.19-.54.06-.25-.12-1.06-.39-2.02-1.24-.75-.67-1.25-1.49-1.4-1.74-.15-.25-.02-.38.11-.5.11-.11.25-.29.37-.44.12-.15.16-.25.25-.42.08-.17.04-.31-.02-.44-.06-.12-.55-1.36-.77-1.86-.2-.48-.4-.42-.55-.42l-.47-.01Z"/></svg>
+      </a>
+      -->
+    </div>
   </header>
 
   <!-- Next match hero (filled by JS from the table data) -->
@@ -166,13 +181,6 @@
       </ol>
     </div>
   </details>
-
-  <section class="social" aria-label="Redes sociales">
-    <a class="ig-btn" href="https://www.instagram.com/peyoterosdesonora/" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s0 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58 0-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23C2.2 15.58 2.2 15.2 2.2 12s0-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.2 8.8 2.2 12 2.2Zm0 1.98c-3.15 0-3.5.01-4.74.07-.89.04-1.37.19-1.69.31-.43.17-.73.36-1.05.68-.32.32-.51.62-.68 1.05-.12.32-.27.8-.31 1.69-.06 1.24-.07 1.59-.07 4.74s.01 3.5.07 4.74c.04.89.19 1.37.31 1.69.17.43.36.73.68 1.05.32.32.62.51 1.05.68.32.12.8.27 1.69.31 1.24.06 1.59.07 4.74.07s3.5-.01 4.74-.07c.89-.04 1.37-.19 1.69-.31.43-.17.73-.36 1.05-.68.32-.32.51-.62.68-1.05.12-.32.27-.8.31-1.69.06-1.24.07-1.59.07-4.74s-.01-3.5-.07-4.74c-.04-.89-.19-1.37-.31-1.69-.17-.43-.36-.73-.68-1.05-.32-.32-.62-.51-1.05-.68-.32-.12-.8-.27-1.69-.31-1.24-.06-1.59-.07-4.74-.07Zm0 3.38a5.05 5.05 0 1 1 0 10.1 5.05 5.05 0 0 1 0-10.1Zm0 1.98a3.07 3.07 0 1 0 0 6.14 3.07 3.07 0 0 0 0-6.14Zm5.27-3.15a1.18 1.18 0 1 1 0 2.36 1.18 1.18 0 0 1 0-2.36Z"/></svg>
-      Síguenos en Instagram <small>@peyoterosdesonora</small>
-    </a>
-  </section>
 
   <h3 class="section">Calendario completo</h3>
   <table id="fixtures">
@@ -214,10 +222,12 @@
 
   <footer>
     📍 <a href="https://maps.app.goo.gl/B4cWEGksTeKQV8dq7" target="_blank" rel="noopener">Campos de Fútbol Rancho Viejo</a>
-    <div class="foot-note">
-      <a href="https://www.instagram.com/peyoterosdesonora/" target="_blank" rel="noopener">@peyoterosdesonora</a>
-      · Calendario del equipo · Horarios sujetos a cambios de la liga · Hecho para los Peyoteros 🌵
+    <div class="socials sm" aria-label="Redes sociales">
+      <a class="ig" href="https://www.instagram.com/peyoterosdesonora/" target="_blank" rel="noopener" aria-label="Instagram @peyoterosdesonora">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s0 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58 0-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23C2.2 15.58 2.2 15.2 2.2 12s0-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.2 8.8 2.2 12 2.2Zm0 1.98c-3.15 0-3.5.01-4.74.07-.89.04-1.37.19-1.69.31-.43.17-.73.36-1.05.68-.32.32-.51.62-.68 1.05-.12.32-.27.8-.31 1.69-.06 1.24-.07 1.59-.07 4.74s.01 3.5.07 4.74c.04.89.19 1.37.31 1.69.17.43.36.73.68 1.05.32.32.62.51 1.05.68.32.12.8.27 1.69.31 1.24.06 1.59.07 4.74.07s3.5-.01 4.74-.07c.89-.04 1.37-.19 1.69-.31.43-.17.73-.36 1.05-.68.32-.32.51-.62.68-1.05.12-.32.27-.8.31-1.69.06-1.24.07-1.59.07-4.74s-.01-3.5-.07-4.74c-.04-.89-.19-1.37-.31-1.69-.17-.43-.36-.73-.68-1.05-.32-.32-.62-.51-1.05-.68-.32-.12-.8-.27-1.69-.31-1.24-.06-1.59-.07-4.74-.07Zm0 3.38a5.05 5.05 0 1 1 0 10.1 5.05 5.05 0 0 1 0-10.1Zm0 1.98a3.07 3.07 0 1 0 0 6.14 3.07 3.07 0 0 0 0-6.14Zm5.27-3.15a1.18 1.18 0 1 1 0 2.36 1.18 1.18 0 0 1 0-2.36Z"/></svg>
+      </a>
     </div>
+    <div class="foot-note">@peyoterosdesonora · Calendario del equipo · Horarios sujetos a cambios de la liga · Hecho para los Peyoteros 🌵</div>
   </footer>
 </div>
 
