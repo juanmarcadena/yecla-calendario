@@ -153,6 +153,54 @@
     background:var(--line);cursor:pointer;transition:width .2s ease,background .2s ease}
   .car-dots button[aria-current="true"]{background:var(--blue-lt);width:20px;border-radius:4px}
 
+  /* standings / record */
+  .standings{display:none;margin:18px 0 4px;background:linear-gradient(160deg,var(--card),var(--card2));
+    border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+  .standings.show{display:block}
+  .standings .st-title{font-size:.72rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--mut);margin-bottom:10px}
+  .st-row{display:flex;flex-wrap:wrap;gap:12px 22px;align-items:baseline}
+  .st-item{display:flex;flex-direction:column;line-height:1.15}
+  .st-item b{font-size:1.3rem;font-weight:900;font-variant-numeric:tabular-nums}
+  .st-item span{font-size:.62rem;color:var(--mut);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+  .st-item.pts b{color:var(--blue-lt)}
+  .st-wdl .w{color:#8fd06f}.st-wdl .d{color:var(--mut)}.st-wdl .l{color:var(--red-lt)}
+
+  /* scores in the fixture table */
+  .score{font-weight:900;font-variant-numeric:tabular-nums;white-space:nowrap;color:#fff}
+  .res{display:inline-block;min-width:16px;text-align:center;font-size:.66rem;font-weight:900;
+    border-radius:4px;padding:1px 4px;margin-left:4px;vertical-align:middle}
+  .res.w{background:rgba(119,176,94,.22);color:#8fd06f}
+  .res.d{background:#1b2f44;color:var(--mut)}
+  .res.l{background:rgba(224,52,43,.2);color:var(--red-lt)}
+  td.time .ft{color:var(--mut);font-size:.8rem}
+  .results-btn{border:1px solid var(--line);background:var(--card);color:var(--ink);
+    border-radius:10px;padding:9px 13px;font-weight:700;font-size:.82rem;cursor:pointer;
+    min-height:40px;white-space:nowrap;transition:border-color .15s ease,color .15s ease,background .15s ease}
+  .results-btn:hover,.results-btn:focus-visible{border-color:var(--blue-lt);color:#fff;background:var(--blue-deep)}
+
+  /* results entry modal */
+  .modal{position:fixed;inset:0;background:rgba(5,12,20,.74);backdrop-filter:blur(3px);
+    -webkit-backdrop-filter:blur(3px);display:none;align-items:flex-start;justify-content:center;
+    padding:20px 12px;z-index:50;overflow:auto}
+  .modal.show{display:flex}
+  .modal-card{background:var(--bg1);border:1px solid var(--line);border-radius:16px;
+    max-width:520px;width:100%;padding:18px;box-shadow:0 20px 60px rgba(0,0,0,.55)}
+  .modal-card h3{margin:0;font-size:1.1rem}
+  .modal-card p.sub{margin:4px 0 12px;color:var(--mut);font-size:.84rem}
+  .re-row{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;
+    padding:9px 0;border-bottom:1px solid var(--line)}
+  .re-row .lbl{font-size:.88rem}
+  .re-row .lbl small{color:var(--mut);display:block;font-size:.72rem;margin-top:1px}
+  .re-inputs{display:flex;align-items:center;gap:5px}
+  .re-inputs input{width:44px;height:38px;text-align:center;font-size:1rem;font-weight:800;
+    border-radius:8px;border:1px solid var(--line);background:var(--card2);color:var(--ink)}
+  .re-inputs .dash{color:var(--mut)}
+  .re-save{min-height:38px;padding:0 12px;border-radius:8px;border:1px solid var(--line);
+    background:var(--blue-deep);color:#fff;font-weight:700;font-size:.8rem;cursor:pointer;white-space:nowrap}
+  .re-save.saved{background:var(--green);border-color:transparent}
+  .modal-close{float:right;background:none;border:none;color:var(--mut);font-size:1.3rem;cursor:pointer;line-height:1}
+  .re-hint{color:var(--mut);font-size:.76rem;margin-top:12px}
+
   footer{text-align:center;color:var(--mut);font-size:.8rem;margin-top:36px;
     border-top:1px solid var(--line);padding-top:18px}
   footer a{color:var(--blue-lt)}
@@ -210,40 +258,48 @@
     </div>
   </details>
 
-  <h3 class="section">Calendario completo</h3>
+  <div class="standings" id="standings" aria-live="polite">
+    <div class="st-title">📊 Récord — Clausura 2026</div>
+    <div class="st-row" id="st-row"></div>
+  </div>
+
+  <div class="section-row">
+    <h3 class="section">Calendario completo</h3>
+    <button class="results-btn" id="resultsBtn" type="button" hidden>✏️ Resultados</button>
+  </div>
   <table id="fixtures">
     <caption>Todos los partidos en Campos de Fútbol Rancho Viejo</caption>
     <thead>
       <tr><th scope="col">Fecha</th><th scope="col">Partido</th><th scope="col">Hora</th><th scope="col">Campo</th></tr>
     </thead>
     <tbody>
-      <tr class="byerow" data-date="2026-08-29" data-bye="1">
+      <tr class="byerow" data-date="2026-08-29" data-j="2" data-bye="1">
         <td class="date">Sáb 29 Ago</td><td><span class="tag bye">Descanso</span> Los Peyoteros no juegan</td><td>—</td><td>—</td></tr>
-      <tr data-date="2026-09-05" data-time="11:00" data-ha="away" data-field="1" data-opp="Almería">
+      <tr data-date="2026-09-05" data-j="3" data-time="11:00" data-ha="away" data-field="1" data-opp="Almería">
         <td class="date">Sáb 5 Sep</td><td><span class="me">Peyoteros</span> vs <span class="opp">Almería</span></td><td class="time">11:00</td><td>1</td></tr>
-      <tr data-date="2026-09-12" data-time="09:00" data-ha="away" data-field="2" data-opp="Canarias">
+      <tr data-date="2026-09-12" data-j="4" data-time="09:00" data-ha="away" data-field="2" data-opp="Canarias">
         <td class="date">Sáb 12 Sep</td><td><span class="me">Peyoteros</span> vs <span class="opp">Canarias</span></td><td class="time">09:00</td><td>2</td></tr>
-      <tr data-date="2026-09-19" data-time="09:00" data-ha="away" data-field="1" data-opp="Euskal Herria">
+      <tr data-date="2026-09-19" data-j="5" data-time="09:00" data-ha="away" data-field="1" data-opp="Euskal Herria">
         <td class="date">Sáb 19 Sep</td><td><span class="me">Peyoteros</span> vs <span class="opp">Euskal Herria</span></td><td class="time">09:00</td><td>1</td></tr>
-      <tr data-date="2026-09-26" data-time="11:00" data-ha="away" data-field="8" data-opp="Mixcoac">
+      <tr data-date="2026-09-26" data-j="6" data-time="11:00" data-ha="away" data-field="8" data-opp="Mixcoac">
         <td class="date">Sáb 26 Sep</td><td><span class="me">Peyoteros</span> vs <span class="opp">Mixcoac</span></td><td class="time">11:00</td><td>8</td></tr>
-      <tr data-date="2026-10-03" data-time="09:00" data-ha="home" data-field="3" data-opp="Triana">
+      <tr data-date="2026-10-03" data-j="7" data-time="09:00" data-ha="home" data-field="3" data-opp="Triana">
         <td class="date">Sáb 3 Oct</td><td><span class="me">Peyoteros</span> vs <span class="opp">Triana</span></td><td class="time">09:00</td><td>3</td></tr>
-      <tr data-date="2026-10-10" data-time="09:00" data-ha="away" data-field="4" data-opp="Villareal">
+      <tr data-date="2026-10-10" data-j="8" data-time="09:00" data-ha="away" data-field="4" data-opp="Villareal">
         <td class="date">Sáb 10 Oct</td><td><span class="me">Peyoteros</span> vs <span class="opp">Villareal</span></td><td class="time">09:00</td><td>4</td></tr>
-      <tr data-date="2026-10-17" data-time="09:00" data-ha="away" data-field="8" data-opp="Málaga">
+      <tr data-date="2026-10-17" data-j="9" data-time="09:00" data-ha="away" data-field="8" data-opp="Málaga">
         <td class="date">Sáb 17 Oct</td><td><span class="me">Peyoteros</span> vs <span class="opp">Málaga</span></td><td class="time">09:00</td><td>8</td></tr>
-      <tr data-date="2026-10-24" data-time="09:00" data-ha="away" data-field="6" data-opp="Amorebieta">
+      <tr data-date="2026-10-24" data-j="10" data-time="09:00" data-ha="away" data-field="6" data-opp="Amorebieta">
         <td class="date">Sáb 24 Oct</td><td><span class="me">Peyoteros</span> vs <span class="opp">Amorebieta</span></td><td class="time">09:00</td><td>6</td></tr>
-      <tr data-date="2026-10-31" data-time="11:00" data-ha="away" data-field="1" data-opp="Pamplona">
+      <tr data-date="2026-10-31" data-j="11" data-time="11:00" data-ha="away" data-field="1" data-opp="Pamplona">
         <td class="date">Sáb 31 Oct</td><td><span class="me">Peyoteros</span> vs <span class="opp">Pamplona</span></td><td class="time">11:00</td><td>1</td></tr>
-      <tr data-date="2026-11-07" data-time="09:00" data-ha="away" data-field="3" data-opp="Matalascañas">
+      <tr data-date="2026-11-07" data-j="12" data-time="09:00" data-ha="away" data-field="3" data-opp="Matalascañas">
         <td class="date">Sáb 7 Nov</td><td><span class="me">Peyoteros</span> vs <span class="opp">Matalascañas</span></td><td class="time">09:00</td><td>3</td></tr>
-      <tr data-date="2026-11-21" data-time="11:00" data-ha="away" data-field="2" data-opp="Sahara">
+      <tr data-date="2026-11-21" data-j="13" data-time="11:00" data-ha="away" data-field="2" data-opp="Sahara">
         <td class="date">Sáb 21 Nov</td><td><span class="me">Peyoteros</span> vs <span class="opp">Sahara</span></td><td class="time">11:00</td><td>2</td></tr>
-      <tr data-date="2026-11-28" data-time="11:00" data-ha="away" data-field="3" data-opp="Palma">
+      <tr data-date="2026-11-28" data-j="14" data-time="11:00" data-ha="away" data-field="3" data-opp="Palma">
         <td class="date">Sáb 28 Nov</td><td><span class="me">Peyoteros</span> vs <span class="opp">Palma</span></td><td class="time">11:00</td><td>3</td></tr>
-      <tr data-date="2026-12-05" data-ha="away" data-opp="Cantabria">
+      <tr data-date="2026-12-05" data-j="15" data-ha="away" data-opp="Cantabria">
         <td class="date">Sáb 5 Dic</td><td><span class="me">Peyoteros</span> vs <span class="opp">Cantabria</span></td><td class="time"><span class="tbd">Por confirmar</span></td><td>—</td></tr>
     </tbody>
   </table>
@@ -275,12 +331,27 @@
   </footer>
 </div>
 
+<div class="modal" id="resModal" role="dialog" aria-modal="true" aria-label="Editar resultados">
+  <div class="modal-card">
+    <button class="modal-close" id="resClose" aria-label="Cerrar">✕</button>
+    <h3>✏️ Resultados</h3>
+    <p class="sub">Anota el marcador (Peyoteros primero). Se actualiza el sitio y el calendario. Deja los dos vacíos y guarda para borrar.</p>
+    <div id="resList"></div>
+    <p class="re-hint">🔒 Pide el PIN del equipo. Los cambios llegan a todos y al calendario en unos segundos.</p>
+  </div>
+</div>
+
 <script>
 (function(){
-  // Build subscribe links from the page's own URL (works at any host)
+  // Results/calendar backend (Val.town). Set to enable live results + standings + editing.
+  // When empty, the page falls back to the static GitHub .ics with no results.
+  var DATA_URL = "";
+
+  // Build subscribe links. If DATA_URL is set, the calendar comes live from there
+  // (so entered results show up in past-game events); otherwise the static file.
   var base = location.href.replace(/index\.html.*$/,"").replace(/[?#].*$/,"");
   if(!base.endsWith("/")) base += "/";
-  var https = base + "yecla-clausura-2026.ics";
+  var https = DATA_URL ? (DATA_URL.replace(/\/$/,"") + "/peyoteros.ics") : (base + "yecla-clausura-2026.ics");
   var webcal = https.replace(/^https?:/,"webcal:");
   document.getElementById("download").href = https;
   document.getElementById("apple").href = webcal;
@@ -320,6 +391,95 @@
     var when = next.dataset.time ? cd : (cd+" · hora por confirmar");
     document.getElementById("hero-when").innerHTML='⏱ <span class="cd">'+when+'</span>';
     hero.hidden=false;
+  }
+
+  /* ---------- Results + standings (only if DATA_URL is set) ---------- */
+  var FIXROWS=[].slice.call(document.querySelectorAll("#fixtures tbody tr"))
+    .filter(function(tr){ return tr.dataset.j && !tr.dataset.bye; });
+  var CURRENT={};             // results by jornada, e.g. {"3":{ph:3,pa:2}}
+  var SESSION_PIN=null;       // remembered for the modal session
+  var resultsBtn=document.getElementById("resultsBtn");
+  var resModal=document.getElementById("resModal");
+  var resList=document.getElementById("resList");
+
+  function paintRow(tr, r){
+    if(!tr) return;
+    var opp=tr.dataset.opp, cell=tr.children[1], t=tr.querySelector("td.time");
+    if(r){
+      var cls=r.ph>r.pa?"w":(r.ph<r.pa?"l":"d"), ltr=r.ph>r.pa?"G":(r.ph<r.pa?"P":"E");
+      cell.innerHTML='<span class="me">Peyoteros</span> <span class="score">'+r.ph+'–'+r.pa+'</span> <span class="opp">'+opp+'</span> <span class="res '+cls+'">'+ltr+'</span>';
+      if(t) t.innerHTML='<span class="ft">Final</span>';
+    } else {
+      cell.innerHTML='<span class="me">Peyoteros</span> vs <span class="opp">'+opp+'</span>';
+      if(t){ if(tr.dataset.time) t.textContent=tr.dataset.time; else t.innerHTML='<span class="tbd">Por confirmar</span>'; }
+    }
+  }
+  function renderStandings(st){
+    var el=document.getElementById("standings");
+    if(!st || !st.P){ el.classList.remove("show"); return; }
+    document.getElementById("st-row").innerHTML=
+      '<div class="st-item"><b>'+st.P+'</b><span>PJ</span></div>'+
+      '<div class="st-item st-wdl"><b><span class="w">'+st.W+'</span>-<span class="d">'+st.D+'</span>-<span class="l">'+st.L+'</span></b><span>G-E-P</span></div>'+
+      '<div class="st-item"><b>'+st.GF+'–'+st.GA+'</b><span>GF-GC</span></div>'+
+      '<div class="st-item"><b>'+(st.GD>0?"+":"")+st.GD+'</b><span>DG</span></div>'+
+      '<div class="st-item pts"><b>'+st.PTS+'</b><span>PTS</span></div>';
+    el.classList.add("show");
+  }
+  function buildModalList(){
+    resList.innerHTML="";
+    FIXROWS.forEach(function(tr){
+      var j=tr.dataset.j, opp=tr.dataset.opp, r=CURRENT[j];
+      var date=tr.querySelector("td.date").textContent.replace(/^✓\s*/,"").trim();
+      var row=document.createElement("div"); row.className="re-row";
+      row.innerHTML='<div class="lbl">Peyoteros vs '+opp+'<small>J'+j+' · '+date+'</small></div>'+
+        '<div class="re-inputs"><input type="number" min="0" max="99" inputmode="numeric" value="'+(r?r.ph:"")+'" aria-label="Goles Peyoteros J'+j+'">'+
+        '<span class="dash">–</span><input type="number" min="0" max="99" inputmode="numeric" value="'+(r?r.pa:"")+'" aria-label="Goles '+opp+' J'+j+'"></div>'+
+        '<button class="re-save" type="button">Guardar</button>';
+      var ins=row.querySelectorAll("input"), btn=row.querySelector(".re-save");
+      btn.addEventListener("click",function(){ saveResult(j, ins[0].value, ins[1].value, btn); });
+      resList.appendChild(row);
+    });
+  }
+  function saveResult(j, phv, pav, btn){
+    var clear=(phv===""&&pav===""), payload={password:SESSION_PIN, j:Number(j)};
+    if(clear) payload.clear=true; else { payload.ph=Number(phv); payload.pa=Number(pav); }
+    if(!clear && ![payload.ph,payload.pa].every(function(n){return Number.isInteger(n)&&n>=0&&n<=99;})){ alert("Marcador inválido."); return; }
+    var old=btn.textContent; btn.textContent="…"; btn.disabled=true;
+    fetch(DATA_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)})
+      .then(function(r){ if(r.status===401) throw new Error("pin"); if(!r.ok) throw new Error("bad"); return r.json(); })
+      .then(function(d){
+        CURRENT=d.results||{};
+        paintRow(document.querySelector('#fixtures tr[data-j="'+j+'"]'), CURRENT[j]);
+        renderStandings(d.standings);
+        btn.textContent="✓"; btn.classList.add("saved"); btn.disabled=false;
+        setTimeout(function(){ btn.textContent="Guardar"; btn.classList.remove("saved"); },1500);
+      })
+      .catch(function(e){
+        btn.textContent=old; btn.disabled=false;
+        if(e.message==="pin"){ SESSION_PIN=null; resModal.classList.remove("show"); alert("PIN incorrecto."); }
+        else alert("No se pudo guardar. Revisa tu conexión.");
+      });
+  }
+  function openModal(){
+    if(!SESSION_PIN){
+      var p=prompt("PIN del equipo para editar resultados:");
+      if(p===null) return;
+      SESSION_PIN=p.trim();
+    }
+    buildModalList();
+    resModal.classList.add("show");
+  }
+  if(DATA_URL){
+    resultsBtn.hidden=false;
+    resultsBtn.addEventListener("click", openModal);
+    document.getElementById("resClose").addEventListener("click",function(){ resModal.classList.remove("show"); });
+    resModal.addEventListener("click",function(e){ if(e.target===resModal) resModal.classList.remove("show"); });
+    document.addEventListener("keydown",function(e){ if(e.key==="Escape") resModal.classList.remove("show"); });
+    fetch(DATA_URL).then(function(r){ return r.json(); }).then(function(d){
+      CURRENT=d.results||{};
+      FIXROWS.forEach(function(tr){ if(CURRENT[tr.dataset.j]) paintRow(tr, CURRENT[tr.dataset.j]); });
+      renderStandings(d.standings);
+    }).catch(function(){});
   }
 
   /* ---------- Photo carousel + team upload ----------
