@@ -1,12 +1,11 @@
 BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//Yecla FC//Clausura 2026//ES
+PRODID:-//Peyoteros//Clausura 2026//ES
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
-X-WR-CALNAME:Yecla ⚽ Clausura 2026
+X-WR-CALNAME:Peyoteros ⚽ Clausura 2026
 X-WR-TIMEZONE:America/Mexico_City
-X-WR-CALDESC:Calendario oficial de partidos de Yecla - Segunda División 
- Clausura 2026
+X-WR-CALDESC:Partidos y resultados de los Peyoteros
 BEGIN:VTIMEZONE
 TZID:America/Mexico_City
 BEGIN:STANDARD
@@ -17,288 +16,296 @@ TZNAME:CST
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:yecla-clausura2026-j2@adecmac
-DTSTAMP:20260825T000000Z
-DTSTART;VALUE=DATE:20260829
-DTEND;VALUE=DATE:20260830
-SUMMARY:😴 Descanso — Yecla no juega (J2)
-TRANSP:TRANSPARENT
-DESCRIPTION:Jornada 2: semana de descanso. Yecla no tiene partido.
-END:VEVENT
-BEGIN:VEVENT
-UID:yecla-clausura2026-j3@adecmac
-DTSTAMP:20260825T000000Z
-DTSTART;TZID=America/Mexico_City:20260905T110000
-DTEND;TZID=America/Mexico_City:20260905T123000
-SUMMARY:⚽ Almería vs Yecla ✈️ (J3)
-LOCATION:Campo 1 — Campos de Fútbol Rancho Viejo
+UID:yecla-clausura2026-j1@adecmac
+DTSTAMP:20260826T225037Z
+DTSTART;TZID=America/Mexico_City:20260822T130000
+DTEND;TZID=America/Mexico_City:20260822T143000
+SUMMARY:⚽ Peyoteros vs Segovia (J1)
+LOCATION:Campo 6 — Campos de Fútbol Rancho Viejo
 GEO:19.259456;-99.247600
-DESCRIPTION:Jornada 3 — Segunda División Clausura 2026\nVisitante (fue
- ra)\nCampo 1\n📍 Cómo llegar: https://maps.app.goo.gl/B4cWEGksTeKQV8d
- q7
+DESCRIPTION:Jornada 1 — Segunda División Clausura 2026\nCampo 6\n📍 
+ https://maps.app.goo.gl/B4cWEGksTeKQV8dq7
 BEGIN:VALARM
 ACTION:DISPLAY
-TRIGGER:-PT900M
-DESCRIPTION:Mañana: ⚽ Almería vs Yecla ✈️ (J3)
+TRIGGER:-PT1020M
+DESCRIPTION:Mañana: ⚽ Peyoteros vs Segovia (J1)
 END:VALARM
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:-PT2H
-DESCRIPTION:En 2 horas: ⚽ Almería vs Yecla ✈️ (J3)
+DESCRIPTION:En 2 horas: ⚽ Peyoteros vs Segovia (J1)
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:yecla-clausura2026-j2@adecmac
+DTSTAMP:20260826T225037Z
+DTSTART;VALUE=DATE:20260829
+DTEND;VALUE=DATE:20260830
+SUMMARY:😴 Descanso — Peyoteros no juega (J2)
+TRANSP:TRANSPARENT
+DESCRIPTION:Jornada 2: semana de descanso.
+END:VEVENT
+BEGIN:VEVENT
+UID:yecla-clausura2026-j3@adecmac
+DTSTAMP:20260826T225037Z
+DTSTART;TZID=America/Mexico_City:20260905T110000
+DTEND;TZID=America/Mexico_City:20260905T123000
+SUMMARY:⚽ Peyoteros vs Almería (J3)
+LOCATION:Campo 1 — Campos de Fútbol Rancho Viejo
+GEO:19.259456;-99.247600
+DESCRIPTION:Jornada 3 — Segunda División Clausura 2026\nCampo 1\n📍 
+ https://maps.app.goo.gl/B4cWEGksTeKQV8dq7
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT900M
+DESCRIPTION:Mañana: ⚽ Peyoteros vs Almería (J3)
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT2H
+DESCRIPTION:En 2 horas: ⚽ Peyoteros vs Almería (J3)
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:yecla-clausura2026-j4@adecmac
-DTSTAMP:20260825T000000Z
+DTSTAMP:20260826T225037Z
 DTSTART;TZID=America/Mexico_City:20260912T090000
 DTEND;TZID=America/Mexico_City:20260912T103000
-SUMMARY:⚽ Canarias vs Yecla ✈️ (J4)
+SUMMARY:⚽ Peyoteros vs Canarias (J4)
 LOCATION:Campo 2 — Campos de Fútbol Rancho Viejo
 GEO:19.259456;-99.247600
-DESCRIPTION:Jornada 4 — Segunda División Clausura 2026\nVisitante (fue
- ra)\nCampo 2\n📍 Cómo llegar: https://maps.app.goo.gl/B4cWEGksTeKQV8d
- q7
+DESCRIPTION:Jornada 4 — Segunda División Clausura 2026\nCampo 2\n📍 
+ https://maps.app.goo.gl/B4cWEGksTeKQV8dq7
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:-PT780M
-DESCRIPTION:Mañana: ⚽ Canarias vs Yecla ✈️ (J4)
+DESCRIPTION:Mañana: ⚽ Peyoteros vs Canarias (J4)
 END:VALARM
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:-PT2H
-DESCRIPTION:En 2 horas: ⚽ Canarias vs Yecla ✈️ (J4)
+DESCRIPTION:En 2 horas: ⚽ Peyoteros vs Canarias (J4)
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:yecla-clausura2026-j5@adecmac
-DTSTAMP:20260825T000000Z
+DTSTAMP:20260826T225037Z
 DTSTART;TZID=America/Mexico_City:20260919T090000
 DTEND;TZID=America/Mexico_City:20260919T103000
-SUMMARY:⚽ Euskal Herria vs Yecla ✈️ (J5)
+SUMMARY:⚽ Peyoteros vs Euskal Herria (J5)
 LOCATION:Campo 1 — Campos de Fútbol Rancho Viejo
 GEO:19.259456;-99.247600
-DESCRIPTION:Jornada 5 — Segunda División Clausura 2026\nVisitante (fue
- ra)\nCampo 1\n📍 Cómo llegar: https://maps.app.goo.gl/B4cWEGksTeKQV8d
- q7
+DESCRIPTION:Jornada 5 — Segunda División Clausura 2026\nCampo 1\n📍 
+ https://maps.app.goo.gl/B4cWEGksTeKQV8dq7
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:-PT780M
-DESCRIPTION:Mañana: ⚽ Euskal Herria vs Yecla ✈️ (J5)
+DESCRIPTION:Mañana: ⚽ Peyoteros vs Euskal Herria (J5)
 END:VALARM
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:-PT2H
-DESCRIPTION:En 2 horas: ⚽ Euskal Herria vs Yecla ✈️ (J5)
+DESCRIPTION:En 2 horas: ⚽ Peyoteros vs Euskal Herria (J5)
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:yecla-clausura2026-j6@adecmac
-DTSTAMP:20260825T000000Z
+DTSTAMP:20260826T225037Z
 DTSTART;TZID=America/Mexico_City:20260926T110000
 DTEND;TZID=America/Mexico_City:20260926T123000
-SUMMARY:⚽ Mixcoac vs Yecla ✈️ (J6)
+SUMMARY:⚽ Peyoteros vs Mixcoac (J6)
 LOCATION:Campo 8 — Campos de Fútbol Rancho Viejo
 GEO:19.259456;-99.247600
-DESCRIPTION:Jornada 6 — Segunda División Clausura 2026\nVisitante (fue
- ra)\nCampo 8\n📍 Cómo llegar: https://maps.app.goo.gl/B4cWEGksTeKQV8d
- q7
+DESCRIPTION:Jornada 6 — Segunda División Clausura 2026\nCampo 8\n📍 
+ https://maps.app.goo.gl/B4cWEGksTeKQV8dq7
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:-PT900M
-DESCRIPTION:Mañana: ⚽ Mixcoac vs Yecla ✈️ (J6)
+DESCRIPTION:Mañana: ⚽ Peyoteros vs Mixcoac (J6)
 END:VALARM
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:-PT2H
-DESCRIPTION:En 2 horas: ⚽ Mixcoac vs Yecla ✈️ (J6)
+DESCRIPTION:En 2 horas: ⚽ Peyoteros vs Mixcoac (J6)
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:yecla-clausura2026-j7@adecmac
-DTSTAMP:20260825T000000Z
+DTSTAMP:20260826T225037Z
 DTSTART;TZID=America/Mexico_City:20261003T090000
 DTEND;TZID=America/Mexico_City:20261003T103000
-SUMMARY:⚽ Yecla vs Triana 🏠 (J7)
+SUMMARY:⚽ Peyoteros vs Triana (J7)
 LOCATION:Campo 3 — Campos de Fútbol Rancho Viejo
 GEO:19.259456;-99.247600
-DESCRIPTION:Jornada 7 — Segunda División Clausura 2026\nLocal (casa)\n
- Campo 3\n📍 Cómo llegar: https://maps.app.goo.gl/B4cWEGksTeKQV8dq7
+DESCRIPTION:Jornada 7 — Segunda División Clausura 2026\nCampo 3\n📍 
+ https://maps.app.goo.gl/B4cWEGksTeKQV8dq7
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:-PT780M
-DESCRIPTION:Mañana: ⚽ Yecla vs Triana 🏠 (J7)
+DESCRIPTION:Mañana: ⚽ Peyoteros vs Triana (J7)
 END:VALARM
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:-PT2H
-DESCRIPTION:En 2 horas: ⚽ Yecla vs Triana 🏠 (J7)
+DESCRIPTION:En 2 horas: ⚽ Peyoteros vs Triana (J7)
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:yecla-clausura2026-j8@adecmac
-DTSTAMP:20260825T000000Z
+DTSTAMP:20260826T225037Z
 DTSTART;TZID=America/Mexico_City:20261010T090000
 DTEND;TZID=America/Mexico_City:20261010T103000
-SUMMARY:⚽ Villareal vs Yecla ✈️ (J8)
+SUMMARY:⚽ Peyoteros vs Villareal (J8)
 LOCATION:Campo 4 — Campos de Fútbol Rancho Viejo
 GEO:19.259456;-99.247600
-DESCRIPTION:Jornada 8 — Segunda División Clausura 2026\nVisitante (fue
- ra)\nCampo 4\n📍 Cómo llegar: https://maps.app.goo.gl/B4cWEGksTeKQV8d
- q7
+DESCRIPTION:Jornada 8 — Segunda División Clausura 2026\nCampo 4\n📍 
+ https://maps.app.goo.gl/B4cWEGksTeKQV8dq7
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:-PT780M
-DESCRIPTION:Mañana: ⚽ Villareal vs Yecla ✈️ (J8)
+DESCRIPTION:Mañana: ⚽ Peyoteros vs Villareal (J8)
 END:VALARM
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:-PT2H
-DESCRIPTION:En 2 horas: ⚽ Villareal vs Yecla ✈️ (J8)
+DESCRIPTION:En 2 horas: ⚽ Peyoteros vs Villareal (J8)
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:yecla-clausura2026-j9@adecmac
-DTSTAMP:20260825T000000Z
+DTSTAMP:20260826T225037Z
 DTSTART;TZID=America/Mexico_City:20261017T090000
 DTEND;TZID=America/Mexico_City:20261017T103000
-SUMMARY:⚽ Málaga vs Yecla ✈️ (J9)
-LOCATION:Campo 8 — Campos de Fútbol Rancho Viejo
+SUMMARY:⚽ Peyoteros vs Matalascañas (J9)
+LOCATION:Campo 3 — Campos de Fútbol Rancho Viejo
 GEO:19.259456;-99.247600
-DESCRIPTION:Jornada 9 — Segunda División Clausura 2026\nVisitante (fue
- ra)\nCampo 8\n📍 Cómo llegar: https://maps.app.goo.gl/B4cWEGksTeKQV8d
- q7
+DESCRIPTION:Jornada 9 — Segunda División Clausura 2026\nCampo 3\n📍 
+ https://maps.app.goo.gl/B4cWEGksTeKQV8dq7
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:-PT780M
-DESCRIPTION:Mañana: ⚽ Málaga vs Yecla ✈️ (J9)
+DESCRIPTION:Mañana: ⚽ Peyoteros vs Matalascañas (J9)
 END:VALARM
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:-PT2H
-DESCRIPTION:En 2 horas: ⚽ Málaga vs Yecla ✈️ (J9)
+DESCRIPTION:En 2 horas: ⚽ Peyoteros vs Matalascañas (J9)
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:yecla-clausura2026-j10@adecmac
-DTSTAMP:20260825T000000Z
+DTSTAMP:20260826T225037Z
 DTSTART;TZID=America/Mexico_City:20261024T090000
 DTEND;TZID=America/Mexico_City:20261024T103000
-SUMMARY:⚽ Amorebieta vs Yecla ✈️ (J10)
+SUMMARY:⚽ Peyoteros vs Amorebieta (J10)
 LOCATION:Campo 6 — Campos de Fútbol Rancho Viejo
 GEO:19.259456;-99.247600
-DESCRIPTION:Jornada 10 — Segunda División Clausura 2026\nVisitante (fu
- era)\nCampo 6\n📍 Cómo llegar: https://maps.app.goo.gl/B4cWEGksTeKQV8
- dq7
+DESCRIPTION:Jornada 10 — Segunda División Clausura 2026\nCampo 6\n📍
+  https://maps.app.goo.gl/B4cWEGksTeKQV8dq7
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:-PT780M
-DESCRIPTION:Mañana: ⚽ Amorebieta vs Yecla ✈️ (J10)
+DESCRIPTION:Mañana: ⚽ Peyoteros vs Amorebieta (J10)
 END:VALARM
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:-PT2H
-DESCRIPTION:En 2 horas: ⚽ Amorebieta vs Yecla ✈️ (J10)
+DESCRIPTION:En 2 horas: ⚽ Peyoteros vs Amorebieta (J10)
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:yecla-clausura2026-j11@adecmac
-DTSTAMP:20260825T000000Z
+DTSTAMP:20260826T225037Z
 DTSTART;TZID=America/Mexico_City:20261031T110000
 DTEND;TZID=America/Mexico_City:20261031T123000
-SUMMARY:⚽ Pamplona vs Yecla ✈️ (J11)
+SUMMARY:⚽ Peyoteros vs Pamplona (J11)
 LOCATION:Campo 1 — Campos de Fútbol Rancho Viejo
 GEO:19.259456;-99.247600
-DESCRIPTION:Jornada 11 — Segunda División Clausura 2026\nVisitante (fu
- era)\nCampo 1\n📍 Cómo llegar: https://maps.app.goo.gl/B4cWEGksTeKQV8
- dq7
+DESCRIPTION:Jornada 11 — Segunda División Clausura 2026\nCampo 1\n📍
+  https://maps.app.goo.gl/B4cWEGksTeKQV8dq7
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:-PT900M
-DESCRIPTION:Mañana: ⚽ Pamplona vs Yecla ✈️ (J11)
+DESCRIPTION:Mañana: ⚽ Peyoteros vs Pamplona (J11)
 END:VALARM
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:-PT2H
-DESCRIPTION:En 2 horas: ⚽ Pamplona vs Yecla ✈️ (J11)
+DESCRIPTION:En 2 horas: ⚽ Peyoteros vs Pamplona (J11)
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:yecla-clausura2026-j12@adecmac
-DTSTAMP:20260825T000000Z
+DTSTAMP:20260826T225037Z
 DTSTART;TZID=America/Mexico_City:20261107T090000
 DTEND;TZID=America/Mexico_City:20261107T103000
-SUMMARY:⚽ Matalascañas vs Yecla ✈️ (J12)
-LOCATION:Campo 3 — Campos de Fútbol Rancho Viejo
+SUMMARY:⚽ Peyoteros vs Málaga (J12)
+LOCATION:Campo 8 — Campos de Fútbol Rancho Viejo
 GEO:19.259456;-99.247600
-DESCRIPTION:Jornada 12 — Segunda División Clausura 2026\nVisitante (fu
- era)\nCampo 3\n📍 Cómo llegar: https://maps.app.goo.gl/B4cWEGksTeKQV8
- dq7
+DESCRIPTION:Jornada 12 — Segunda División Clausura 2026\nCampo 8\n📍
+  https://maps.app.goo.gl/B4cWEGksTeKQV8dq7
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:-PT780M
-DESCRIPTION:Mañana: ⚽ Matalascañas vs Yecla ✈️ (J12)
+DESCRIPTION:Mañana: ⚽ Peyoteros vs Málaga (J12)
 END:VALARM
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:-PT2H
-DESCRIPTION:En 2 horas: ⚽ Matalascañas vs Yecla ✈️ (J12)
+DESCRIPTION:En 2 horas: ⚽ Peyoteros vs Málaga (J12)
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:yecla-clausura2026-j13@adecmac
-DTSTAMP:20260825T000000Z
+DTSTAMP:20260826T225037Z
 DTSTART;TZID=America/Mexico_City:20261121T110000
 DTEND;TZID=America/Mexico_City:20261121T123000
-SUMMARY:⚽ Sahara vs Yecla ✈️ (J13)
+SUMMARY:⚽ Peyoteros vs Sahara (J13)
 LOCATION:Campo 2 — Campos de Fútbol Rancho Viejo
 GEO:19.259456;-99.247600
-DESCRIPTION:Jornada 13 — Segunda División Clausura 2026\nVisitante (fu
- era)\nCampo 2\n📍 Cómo llegar: https://maps.app.goo.gl/B4cWEGksTeKQV8
- dq7
+DESCRIPTION:Jornada 13 — Segunda División Clausura 2026\nCampo 2\n📍
+  https://maps.app.goo.gl/B4cWEGksTeKQV8dq7
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:-PT900M
-DESCRIPTION:Mañana: ⚽ Sahara vs Yecla ✈️ (J13)
+DESCRIPTION:Mañana: ⚽ Peyoteros vs Sahara (J13)
 END:VALARM
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:-PT2H
-DESCRIPTION:En 2 horas: ⚽ Sahara vs Yecla ✈️ (J13)
+DESCRIPTION:En 2 horas: ⚽ Peyoteros vs Sahara (J13)
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:yecla-clausura2026-j14@adecmac
-DTSTAMP:20260825T000000Z
+DTSTAMP:20260826T225037Z
 DTSTART;TZID=America/Mexico_City:20261128T110000
 DTEND;TZID=America/Mexico_City:20261128T123000
-SUMMARY:⚽ Palma vs Yecla ✈️ (J14)
+SUMMARY:⚽ Peyoteros vs Palma (J14)
 LOCATION:Campo 3 — Campos de Fútbol Rancho Viejo
 GEO:19.259456;-99.247600
-DESCRIPTION:Jornada 14 — Segunda División Clausura 2026\nVisitante (fu
- era)\nCampo 3\n📍 Cómo llegar: https://maps.app.goo.gl/B4cWEGksTeKQV8
- dq7
+DESCRIPTION:Jornada 14 — Segunda División Clausura 2026\nCampo 3\n📍
+  https://maps.app.goo.gl/B4cWEGksTeKQV8dq7
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:-PT900M
-DESCRIPTION:Mañana: ⚽ Palma vs Yecla ✈️ (J14)
+DESCRIPTION:Mañana: ⚽ Peyoteros vs Palma (J14)
 END:VALARM
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:-PT2H
-DESCRIPTION:En 2 horas: ⚽ Palma vs Yecla ✈️ (J14)
+DESCRIPTION:En 2 horas: ⚽ Peyoteros vs Palma (J14)
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:yecla-clausura2026-j15@adecmac
-DTSTAMP:20260825T000000Z
+DTSTAMP:20260826T225037Z
 DTSTART;VALUE=DATE:20261205
 DTEND;VALUE=DATE:20261206
-SUMMARY:⚽ Cantabria vs Yecla ✈️ (J15) — hora TBD
+SUMMARY:⚽ Peyoteros vs Cantabria (J15) — hora TBD
 LOCATION:Campos de Fútbol Rancho Viejo
 GEO:19.259456;-99.247600
-DESCRIPTION:Jornada 15 — Segunda División Clausura 2026\nVisitante (fu
- era)\nCampo por confirmar\n📍 Cómo llegar: https://maps.app.goo.gl/B4
- cWEGksTeKQV8dq7\n⚠️ Hora por confirmar (pendiente en el calendario o
- ficial)
+DESCRIPTION:Jornada 15 — Segunda División Clausura 2026\n📍 https://
+ maps.app.goo.gl/B4cWEGksTeKQV8dq7
 END:VEVENT
 END:VCALENDAR
