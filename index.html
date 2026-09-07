@@ -64,8 +64,23 @@
   .b-home{background:rgba(119,176,94,.18);color:#8fd06f;border:1px solid rgba(119,176,94,.5)}
   .b-away{background:rgba(91,155,214,.15);color:var(--blue-lt);border:1px solid rgba(91,155,214,.5)}
 
+  /* last result bar (from manual/live results) */
+  .lastres{margin:-2px 0 10px;padding:11px 14px;border:1px solid var(--line);border-radius:12px;
+    background:var(--card2);font-size:.92rem;align-items:center;gap:10px}
+  .lastres:not([hidden]){display:flex}
+  .lastres .lr-label{color:var(--mut);font-size:.68rem;text-transform:uppercase;letter-spacing:1px;font-weight:800}
+  .lastres .lr-score{font-weight:800;color:#fff;font-variant-numeric:tabular-nums}
+  .lastres .lr-badge{margin-left:auto;font-size:.64rem;font-weight:900;padding:3px 9px;border-radius:20px;white-space:nowrap}
+  .lastres .lr-badge.w{background:rgba(119,176,94,.2);color:#8fd06f}
+  .lastres .lr-badge.d{background:#1b2f44;color:var(--mut)}
+  .lastres .lr-badge.l{background:rgba(224,52,43,.2);color:var(--red-lt)}
+
   /* subscribe actions — one clear primary, then secondary/tertiary (visual hierarchy) */
   .cta{display:flex;flex-direction:column;gap:10px;margin:20px 0 6px}
+  .cta-row{display:flex;gap:10px}
+  .cta-row .btn{flex:1}
+  .btn.dl{min-height:42px;font-size:.86rem;font-weight:600;color:var(--mut);background:transparent;border-color:var(--line)}
+  .btn.dl:hover{color:var(--ink)}
   .btn{display:flex;align-items:center;justify-content:center;gap:10px;min-height:52px;
     padding:14px 16px;border-radius:13px;text-decoration:none;font-weight:700;font-size:1.02rem;
     border:1px solid var(--line);color:var(--ink);background:var(--card);
@@ -250,15 +265,18 @@
        target="_blank" rel="noopener">📍 Cómo llegar a Rancho Viejo</a>
   </section>
 
-  <!-- Primary action: subscribe once -->
+  <!-- Last result (from manual results — the live/current source) -->
+  <div class="lastres" id="lastres" hidden></div>
+
+  <!-- Primary action: subscribe once (compact: pick your phone) -->
   <nav class="cta" aria-label="Suscribirse al calendario">
-    <a class="btn primary" id="google" href="#" target="_blank" rel="noopener">
-      📅 Añadir a Google Calendar</a>
-    <a class="btn" id="apple" href="#">🍎 Añadir a iPhone / Apple <small>(webcal)</small></a>
-    <a class="btn" id="download" href="yecla-clausura-2026.ics" download>⬇️ Descargar archivo .ics</a>
+    <div class="cta-row">
+      <a class="btn primary" id="google" href="#" target="_blank" rel="noopener">📅 Google</a>
+      <a class="btn primary" id="apple" href="#">🍎 iPhone</a>
+    </div>
+    <a class="btn dl" id="download" href="yecla-clausura-2026.ics" download>⬇️ Descargar .ics</a>
   </nav>
-  <p class="reassure">Te suscribes <b>una sola vez</b>. Los partidos llegan solos a tu teléfono,
-    con recordatorios, y si la liga cambia un horario tu calendario se actualiza automáticamente.</p>
+  <p class="reassure">Suscríbete una vez: los partidos y resultados llegan solos a tu calendario, con recordatorios.</p>
 
   <details>
     <summary>¿Cómo funciona? ¿Es seguro?</summary>
@@ -273,7 +291,7 @@
   </details>
 
   <div class="standings" id="standings" aria-live="polite">
-    <div class="st-title">📊 Récord — Clausura 2026</div>
+    <div class="st-title">📊 Nuestro récord · al día</div>
     <div class="st-row" id="st-row"></div>
   </div>
 
@@ -451,6 +469,23 @@
       '<div class="st-item pts"><b>'+st.PTS+'</b><span>PTS</span></div>';
     el.classList.add("show");
   }
+  function renderLastResult(){
+    var el=document.getElementById("lastres");
+    if(!el) return;
+    var best=null;
+    FIXROWS.forEach(function(tr){
+      var r=CURRENT[tr.dataset.j];
+      if(r && (!best || tr.dataset.date > best.tr.dataset.date)) best={tr:tr, r:r};
+    });
+    if(!best){ el.hidden=true; return; }
+    var opp=best.tr.dataset.opp, r=best.r;
+    var cls=r.ph>r.pa?"w":(r.ph<r.pa?"l":"d");
+    var word=r.ph>r.pa?"Victoria":(r.ph<r.pa?"Derrota":"Empate");
+    el.innerHTML='<span class="lr-label">Último</span>'+
+      '<span class="lr-score">Peyoteros '+r.ph+'–'+r.pa+' '+opp+'</span>'+
+      '<span class="lr-badge '+cls+'">'+word+'</span>';
+    el.hidden=false;
+  }
   function buildModalList(){
     resList.innerHTML="";
     FIXROWS.forEach(function(tr){
@@ -477,6 +512,7 @@
         CURRENT=d.results||{};
         paintRow(document.querySelector('#fixtures tr[data-j="'+j+'"]'), CURRENT[j]);
         renderStandings(d.standings);
+        renderLastResult();
         btn.textContent="✓"; btn.classList.add("saved"); btn.disabled=false;
         setTimeout(function(){ btn.textContent="Guardar"; btn.classList.remove("saved"); },1500);
       })
@@ -505,6 +541,7 @@
       CURRENT=d.results||{};
       FIXROWS.forEach(function(tr){ if(CURRENT[tr.dataset.j]) paintRow(tr, CURRENT[tr.dataset.j]); });
       renderStandings(d.standings);
+      renderLastResult();
     }).catch(function(){});
   }
 
@@ -529,8 +566,8 @@
       document.getElementById("leagueWrap").hidden=false;
       if(d.at){
         var upd=document.getElementById("leagueUpd");
-        try{ upd.textContent="Actualizado "+new Date(d.at).toLocaleString("es-MX",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"})+" · fuente: adecmac.com"; }
-        catch(e){ upd.textContent="Fuente: adecmac.com"; }
+        try{ upd.textContent="Tabla oficial de adecmac.com — se actualiza unos días después de cada jornada · "+new Date(d.at).toLocaleString("es-MX",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}); }
+        catch(e){ upd.textContent="Tabla oficial de adecmac.com — puede ir unos días atrás."; }
         upd.hidden=false;
       }
     }).catch(function(){});
