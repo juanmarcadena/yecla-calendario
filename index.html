@@ -201,6 +201,20 @@
   .modal-close{float:right;background:none;border:none;color:var(--mut);font-size:1.3rem;cursor:pointer;line-height:1}
   .re-hint{color:var(--mut);font-size:.76rem;margin-top:12px}
 
+  /* league table (scraped) */
+  .league-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:12px}
+  table.league{width:100%;border-collapse:collapse;font-size:.9rem;min-width:360px}
+  table.league th,table.league td{padding:9px 7px;border-bottom:1px solid var(--line);text-align:center;white-space:nowrap}
+  table.league tr:last-child td{border-bottom:none}
+  table.league thead th{color:var(--mut);font-size:.66rem;text-transform:uppercase;letter-spacing:.5px}
+  table.league td.club,table.league th.club{text-align:left;font-weight:600;padding-left:10px}
+  table.league td.pos{color:var(--mut);font-variant-numeric:tabular-nums}
+  table.league td.pts{font-weight:900;color:var(--blue-lt)}
+  table.league tr.us td{background:linear-gradient(90deg,rgba(224,52,43,.16),transparent)}
+  table.league tr.us td.club{color:#fff;font-weight:800}
+  table.league tr.us td:first-child{box-shadow:inset 3px 0 0 var(--red)}
+  .league-upd{color:var(--mut);font-size:.72rem;margin:8px 4px 0}
+
   footer{text-align:center;color:var(--mut);font-size:.8rem;margin-top:36px;
     border-top:1px solid var(--line);padding-top:18px}
   footer a{color:var(--blue-lt)}
@@ -305,6 +319,15 @@
     </tbody>
   </table>
 
+  <h3 class="section" id="leagueHead" hidden>📊 Tabla — Segunda División</h3>
+  <div class="league-wrap" id="leagueWrap" hidden>
+    <table class="league" id="leagueTable">
+      <thead><tr><th class="pos">#</th><th class="club">Equipo</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>DG</th><th>PTS</th></tr></thead>
+      <tbody id="leagueBody"></tbody>
+    </table>
+  </div>
+  <p class="league-upd" id="leagueUpd" hidden></p>
+
   <div class="section-row">
     <h3 class="section">📸 Galería del equipo</h3>
     <button class="upload-btn" id="uploadBtn" type="button" hidden>📤 Subir foto</button>
@@ -347,6 +370,8 @@
   // Results/calendar backend (Val.town). Set to enable live results + standings + editing.
   // When empty, the page falls back to the static GitHub .ics with no results.
   var DATA_URL = "https://talc_eerier9q--3f23e834a10a11f1a5ac1607ee4eb77e.web.val.run";
+  // Scraped league standings (ADECMAC). Set to enable the full division table.
+  var LEAGUE_URL = "";
 
   // Build subscribe links. If DATA_URL is set, the calendar comes live from there
   // (so entered results show up in past-game events); otherwise the static file.
@@ -480,6 +505,34 @@
       CURRENT=d.results||{};
       FIXROWS.forEach(function(tr){ if(CURRENT[tr.dataset.j]) paintRow(tr, CURRENT[tr.dataset.j]); });
       renderStandings(d.standings);
+    }).catch(function(){});
+  }
+
+  /* ---------- League table (scraped from ADECMAC, only if LEAGUE_URL set) ---------- */
+  if(LEAGUE_URL){
+    fetch(LEAGUE_URL).then(function(r){ return r.json(); }).then(function(d){
+      var t=(d&&d.table)||[];
+      if(!t.length) return;
+      var tb=document.getElementById("leagueBody");
+      tb.innerHTML="";
+      t.forEach(function(x){
+        var tr=document.createElement("tr");
+        var isUs=(x.club==="Yecla");
+        if(isUs) tr.className="us";
+        tr.innerHTML='<td class="pos">'+x.pos+'</td>'+
+          '<td class="club">'+(isUs?"Peyoteros":x.club)+'</td>'+
+          '<td>'+x.pj+'</td><td>'+x.g+'</td><td>'+x.e+'</td><td>'+x.p+'</td>'+
+          '<td>'+x.dg+'</td><td class="pts">'+x.pts+'</td>';
+        tb.appendChild(tr);
+      });
+      document.getElementById("leagueHead").hidden=false;
+      document.getElementById("leagueWrap").hidden=false;
+      if(d.at){
+        var upd=document.getElementById("leagueUpd");
+        try{ upd.textContent="Actualizado "+new Date(d.at).toLocaleString("es-MX",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"})+" · fuente: adecmac.com"; }
+        catch(e){ upd.textContent="Fuente: adecmac.com"; }
+        upd.hidden=false;
+      }
     }).catch(function(){});
   }
 
