@@ -8,9 +8,17 @@ const res = await fetch(SRC, { headers: {
 }});
 if (!res.ok) { console.error("fetch failed", res.status); process.exit(1); }
 const html = await res.text();
-const tbl = html.match(/<table[\s\S]*?<\/table>/);
-if (!tbl) { console.error("no table found"); process.exit(1); }
-const rows = [...tbl[0].matchAll(/<tr[^>]*>([\s\S]*?)<\/tr>/g)];
+
+// The page can have multiple tables (a fixtures/scoreboard table + the standings).
+// Pick the STANDINGS table specifically, not just the first <table>.
+const tables = [...html.matchAll(/<table[\s\S]*?<\/table>/g)].map((m) => m[0]);
+const tbl =
+  tables.find((t) => /sp-league-table/.test(t)) ||
+  tables.find((t) => /data-rank/.test(t) && /data-pts/.test(t)) ||
+  tables.find((t) => />\s*Pos\s*</.test(t) && />\s*PTS\s*</.test(t));
+if (!tbl) { console.error("no standings table found among", tables.length, "tables"); process.exit(1); }
+
+const rows = [...tbl.matchAll(/<tr[^>]*>([\s\S]*?)<\/tr>/g)];
 const table = [];
 for (const r of rows) {
   const cells = [...r[1].matchAll(/<t[dh][^>]*>([\s\S]*?)<\/t[dh]>/g)]
@@ -22,4 +30,4 @@ for (const r of rows) {
 }
 if (!table.length) { console.error("no rows parsed"); process.exit(1); }
 writeFileSync("league.json", JSON.stringify({ table, at: Date.now(), source: SRC }));
-console.log("wrote league.json:", table.length, "teams; leader", table[0].club);
+console.log("wrote league.json:", table.length, "teams; leader", table[0].club, "| last", table[table.length-1].club);
