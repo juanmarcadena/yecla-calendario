@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alineación — Peyoteros</title>
+<meta name="description" content="Arma la alineación de los Peyoteros: elige formación, coloca jugadores del plantel y comparte la imagen.">
+<meta name="theme-color" content="#12293f">
+<link rel="icon" type="image/png" href="logo.png">
+<style>
+  :root{
+    --bg1:#12293f; --bg2:#0b1826; --blue:#3f7cb5; --blue-lt:#5b9bd6; --blue-deep:#1c3d5c;
+    --grass1:#1f7a43; --grass2:#186235; --red:#e0342b; --card:#16324c; --line:#274a68; --ink:#eaf1f8; --mut:#9fb4c9;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;color:var(--ink);
+    background:radial-gradient(1200px 600px at 50% -10%,#1d476e,var(--bg1) 45%,var(--bg2));
+    background-attachment:fixed;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.5;-webkit-font-smoothing:antialiased;padding:18px 14px 44px}
+  .wrap{max-width:540px;margin:0 auto}
+  a{color:var(--blue-lt)}
+  .back{display:inline-flex;align-items:center;gap:6px;color:var(--mut);text-decoration:none;font-size:.86rem;margin-bottom:12px}
+  .back:hover{color:var(--ink)}
+  .top{display:flex;align-items:center;gap:13px;margin-bottom:14px}
+  .top img{width:52px;height:52px;border-radius:50%;box-shadow:0 3px 12px rgba(0,0,0,.45)}
+  .top h1{font-size:1.4rem;font-weight:900;letter-spacing:2px;margin:0;line-height:1}
+  .top p{margin:3px 0 0;color:var(--mut);font-size:.8rem}
+  .controls{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+  .sel{flex:1;min-width:120px;background:var(--card);color:var(--ink);border:1px solid var(--line);
+    border-radius:11px;padding:12px;font-weight:700;font-size:1rem}
+  .btn{background:var(--blue-deep);color:#fff;border:1px solid var(--line);border-radius:11px;
+    padding:12px 15px;font-weight:700;cursor:pointer;white-space:nowrap;transition:filter .15s;min-height:46px}
+  .btn:hover{filter:brightness(1.12)}
+  .btn.primary{background:linear-gradient(180deg,var(--blue-lt),var(--blue));border-color:transparent}
+  .btn.ghost{background:transparent;color:var(--mut)}
+  .btn:focus-visible,.sel:focus-visible,.pl:focus-visible{outline:3px solid var(--blue-lt);outline-offset:2px}
+  #pitchWrap{border-radius:18px;overflow:hidden;border:1px solid var(--line);box-shadow:0 14px 40px rgba(0,0,0,.4)}
+  svg{display:block;width:100%;height:auto}
+  .slot{cursor:pointer}
+  .slot .jersey{fill:var(--blue);stroke:#fff;stroke-width:.5}
+  .slot.empty .jersey{fill:rgba(255,255,255,.09);stroke:rgba(255,255,255,.55);stroke-dasharray:1.6 1.4}
+  .slot .num{fill:#fff;font-weight:700;text-anchor:middle;dominant-baseline:central;font-family:Arial,sans-serif}
+  .slot .nm{fill:#fff;text-anchor:middle;font-weight:700;font-family:Arial,sans-serif;paint-order:stroke;stroke:rgba(0,0,0,.6);stroke-width:.55}
+  .share{display:flex;gap:8px;margin-top:12px}
+  .share .btn{flex:1}
+  .hint{color:var(--mut);font-size:.78rem;text-align:center;margin:12px 6px 0;line-height:1.5}
+  .sheet{position:fixed;inset:0;background:rgba(4,10,17,.72);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+    display:none;align-items:flex-end;justify-content:center;z-index:20}
+  .sheet.show{display:flex}
+  .sheet-card{background:var(--bg1);border:1px solid var(--line);border-radius:18px 18px 0 0;
+    width:100%;max-width:540px;max-height:76vh;overflow:auto;padding:16px}
+  .sheet-top{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+  .sheet-top h3{margin:0;font-size:1.05rem;flex:1}
+  .pl{display:flex;align-items:center;gap:11px;padding:11px 9px;border-bottom:1px solid var(--line);cursor:pointer;border-radius:9px}
+  .pl:hover{background:var(--card)}
+  .pl .n{width:32px;text-align:center;font-weight:900;font-size:1.02rem;color:var(--blue-lt)}
+  .pl.used{opacity:.4}
+  .pl .used-tag{margin-left:auto;font-size:.68rem;color:var(--mut)}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="./">← Volver a Peyoteros</a>
+  <div class="top">
+    <img src="logo.png" alt="Escudo Peyoteros">
+    <div><h1>ALINEACIÓN</h1><p>Elige formación · toca una posición · comparte</p></div>
+  </div>
+
+  <div class="controls">
+    <select class="sel" id="formation" aria-label="Formación"></select>
+    <button class="btn ghost" id="clearBtn">Vaciar</button>
+  </div>
+
+  <div id="pitchWrap"></div>
+
+  <div class="share">
+    <button class="btn primary" id="shareBtn">📲 Compartir</button>
+    <button class="btn" id="dlBtn">⬇️ Descargar</button>
+  </div>
+  <p class="hint">Se guarda en este dispositivo. Comparte la imagen directo al grupo de WhatsApp.</p>
+</div>
+
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Elegir jugador">
+  <div class="sheet-card">
+    <div class="sheet-top">
+      <h3 id="sheetTitle">Elegir jugador</h3>
+      <button class="btn ghost" id="removeBtn" hidden>Quitar</button>
+      <button class="btn ghost" id="sheetClose">✕</button>
+    </div>
+    <div id="rosterList"></div>
+  </div>
+</div>
+
+<script>
+const ROSTER=[
+ {n:1,name:"Alexis Becerra"},{n:2,name:"Alberto Cornelio"},{n:4,name:"Alberto Bretón"},{n:5,name:"José Saborit"},
+ {n:6,name:"Tomás Martínez"},{n:7,name:"Edgar Zapata"},{n:8,name:"Fernando Reséndiz"},{n:9,name:"Francisco Zaldívar"},
+ {n:10,name:"José A. Morales"},{n:11,name:"David Alejandre"},{n:12,name:"Leonardo Lugo"},{n:13,name:"Marcos Balbuena"},
+ {n:14,name:"Alberto Galeana"},{n:16,name:"Alejandro Ruan"},{n:17,name:"Alejandro Paz"},{n:18,name:"Fernando Alonso"},
+ {n:19,name:"Rodrigo Paz"},{n:25,name:"Juan M. Cadena"},{n:27,name:"Jaime Cabrera"},{n:28,name:"René Come"},
+ {n:29,name:"Daniel Zaldívar"},{n:30,name:"Camilo Lugo"},{n:32,name:"Óscar Sandín"},{n:33,name:"Luis González"},
+ {n:34,name:"Blas Castillo"},{n:44,name:"Kevin De La Rosa"},{n:46,name:"David Hernández"},{n:47,name:"Angelus Hidalgo"},
+ {n:50,name:"Andrés Benítez"},{n:51,name:"Moisés Ramírez"},{n:52,name:"Rodrigo Barrales"},{n:54,name:"Sam Smith"},
+ {n:57,name:"Víctor Muñoz"},{n:60,name:"Víctor Alfaro"},{n:66,name:"Luis Islas"},{n:71,name:"Edson Valencia"},
+ {n:77,name:"José D. Sánchez"},{n:80,name:"Cristian Lugo"},{n:82,name:"Eduardo Gomora"},{n:85,name:"Luis Valle"},
+ {n:88,name:"José A. Jara"},{n:90,name:"Diego Moreno"},{n:91,name:"Emmanuel Vivanco"},{n:99,name:"Roberto Moreno"},
+];
+const FORMATIONS={
+ "4-4-2":  [[50,90],[16,72],[39,75],[61,75],[84,72],[16,48],[39,50],[61,50],[84,48],[39,25],[61,25]],
+ "4-3-3":  [[50,90],[16,72],[39,75],[61,75],[84,72],[30,52],[50,55],[70,52],[20,27],[50,22],[80,27]],
+ "4-2-3-1":[[50,90],[16,73],[39,76],[61,76],[84,73],[36,58],[64,58],[22,38],[50,40],[78,38],[50,20]],
+ "3-5-2":  [[50,90],[28,74],[50,76],[72,74],[12,52],[33,54],[50,56],[67,54],[88,52],[39,26],[61,26]],
+ "5-3-2":  [[50,90],[12,72],[31,75],[50,76],[69,75],[88,72],[31,50],[50,52],[69,50],[39,26],[61,26]],
+};
+const W=100,H=150, LS="peyoteros_lineup";
+let assign={}, formation="4-3-3", currentSlot=null;
+const shorten=n=>{const p=n.split(" ");return p[p.length-1];};
+
+// restore from localStorage
+try{ const s=JSON.parse(localStorage.getItem(LS)||"{}"); if(s.formation&&FORMATIONS[s.formation]){formation=s.formation;} if(s.assign){assign=s.assign;} }catch(e){}
+function save(){ try{ localStorage.setItem(LS, JSON.stringify({formation,assign})); }catch(e){} }
+
+function pitchSVG(coords){
+  let s=`<svg id="pitch" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+  s+=`<rect width="${W}" height="${H}" fill="#186235"/>`;
+  for(let i=0;i<8;i++){if(i%2)s+=`<rect x="0" y="${i*H/8}" width="${W}" height="${H/8}" fill="#1f7a43"/>`;}
+  const L='stroke="rgba(255,255,255,.72)" stroke-width="0.5" fill="none"';
+  s+=`<rect x="3" y="3" width="${W-6}" height="${H-6}" ${L}/>`;
+  s+=`<line x1="3" y1="${H/2}" x2="${W-3}" y2="${H/2}" ${L}/>`;
+  s+=`<circle cx="${W/2}" cy="${H/2}" r="11" ${L}/><circle cx="${W/2}" cy="${H/2}" r="0.8" fill="rgba(255,255,255,.72)"/>`;
+  s+=`<rect x="24" y="3" width="52" height="18" ${L}/><rect x="37" y="3" width="26" height="8" ${L}/>`;
+  s+=`<rect x="24" y="${H-21}" width="52" height="18" ${L}/><rect x="37" y="${H-11}" width="26" height="8" ${L}/>`;
+  s+=`<text x="${W/2}" y="8.6" text-anchor="middle" fill="rgba(255,255,255,.9)" font-size="3.4" font-weight="bold" font-family="Arial">PEYOTEROS · ${formation}</text>`;
+  coords.forEach((c,i)=>{
+    const x=c[0],y=c[1]/100*H;
+    const p=assign[i]!=null?ROSTER.find(r=>r.n===assign[i]):null;
+    s+=`<g class="slot ${p?'':'empty'}" data-i="${i}" transform="translate(${x},${y})">`;
+    s+=`<circle class="jersey" r="6"/>`;
+    if(p){s+=`<text class="num" y="-0.3" font-size="4.6">${p.n}</text><text class="nm" y="9.6" font-size="3">${shorten(p.name)}</text>`;}
+    else{s+=`<text class="num" y="0" font-size="6" fill="rgba(255,255,255,.72)">+</text>`;}
+    s+=`</g>`;
+  });
+  return s+`</svg>`;
+}
+function render(){
+  document.getElementById("pitchWrap").innerHTML=pitchSVG(FORMATIONS[formation]);
+  document.querySelectorAll(".slot").forEach(g=>g.addEventListener("click",()=>openSheet(+g.dataset.i)));
+  save();
+}
+function openSheet(i){
+  currentSlot=i;
+  const list=document.getElementById("rosterList");list.innerHTML="";
+  const used=Object.values(assign);
+  ROSTER.forEach(p=>{
+    const isUsed=used.includes(p.n)&&assign[i]!==p.n;
+    const row=document.createElement("div");row.className="pl"+(isUsed?" used":"");row.tabIndex=0;
+    row.innerHTML=`<span class="n">${p.n}</span><span class="full">${p.name}</span>`+(isUsed?'<span class="used-tag">ya alineado</span>':'');
+    row.addEventListener("click",()=>{assign[i]=p.n;closeSheet();render();});
+    list.appendChild(row);
+  });
+  document.getElementById("removeBtn").hidden=assign[i]==null;
+  document.getElementById("sheet").classList.add("show");
+}
+function closeSheet(){document.getElementById("sheet").classList.remove("show");}
+document.getElementById("sheetClose").onclick=closeSheet;
+document.getElementById("sheet").addEventListener("click",e=>{if(e.target.id==="sheet")closeSheet();});
+document.getElementById("removeBtn").onclick=()=>{if(currentSlot!=null){delete assign[currentSlot];closeSheet();render();}};
+document.getElementById("clearBtn").onclick=()=>{assign={};render();};
+
+Object.keys(FORMATIONS).forEach(f=>{const o=document.createElement("option");o.value=f;o.textContent=f;document.getElementById("formation").appendChild(o);});
+document.getElementById("formation").value=formation;
+document.getElementById("formation").onchange=e=>{formation=e.target.value;render();};
+
+function pngBlob(){
+  return new Promise(res=>{
+    const xml=new XMLSerializer().serializeToString(document.getElementById("pitch"));
+    const src="data:image/svg+xml;base64,"+btoa(unescape(encodeURIComponent(xml)));
+    const img=new Image();
+    img.onload=()=>{const sc=8,c=document.createElement("canvas");c.width=W*sc;c.height=H*sc;
+      c.getContext("2d").drawImage(img,0,0,c.width,c.height);c.toBlob(res,"image/png");};
+    img.src=src;
+  });
+}
+document.getElementById("dlBtn").onclick=async()=>{
+  const b=await pngBlob();const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="alineacion-peyoteros.png";a.click();
+};
+document.getElementById("shareBtn").onclick=async()=>{
+  const b=await pngBlob();
+  const file=new File([b],"alineacion-peyoteros.png",{type:"image/png"});
+  if(navigator.canShare&&navigator.canShare({files:[file]})){
+    try{ await navigator.share({files:[file],title:"Alineación Peyoteros",text:"⚽ Alineación de los Peyoteros"}); return; }catch(e){ if(e && e.name==="AbortError") return; }
+  }
+  // fallback: download
+  const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="alineacion-peyoteros.png";a.click();
+};
+
+render();
+</script>
+</body>
+</html>
