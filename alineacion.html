@@ -137,10 +137,16 @@ function pitchSVG(coords){
   coords.forEach((c,i)=>{
     const x=c[0],y=c[1]/100*H;
     const p=assign[i]!=null?ROSTER.find(r=>r.n===assign[i]):null;
-    s+=`<g class="slot ${p?'':'empty'}" data-i="${i}" transform="translate(${x},${y})">`;
-    s+=`<circle class="jersey" r="6"/>`;
-    if(p){s+=`<text class="num" y="-0.3" font-size="4.6">${p.n}</text><text class="nm" y="9.6" font-size="3">${shorten(p.name)}</text>`;}
-    else{s+=`<text class="num" y="0" font-size="6" fill="rgba(255,255,255,.72)">+</text>`;}
+    // inline presentation attributes so the exported PNG is self-contained (no reliance on page CSS)
+    s+=`<g class="slot" data-i="${i}" transform="translate(${x},${y})" style="cursor:pointer">`;
+    if(p){
+      s+=`<circle r="6" fill="#3f7cb5" stroke="#ffffff" stroke-width="0.5"/>`;
+      s+=`<text x="0" y="-0.3" font-size="4.6" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-weight="bold" font-family="Arial, sans-serif">${p.n}</text>`;
+      s+=`<text x="0" y="9.6" font-size="3" text-anchor="middle" fill="#ffffff" stroke="rgba(0,0,0,0.6)" stroke-width="0.5" paint-order="stroke" font-weight="bold" font-family="Arial, sans-serif">${shorten(p.name)}</text>`;
+    }else{
+      s+=`<circle r="6" fill="rgba(255,255,255,0.10)" stroke="rgba(255,255,255,0.55)" stroke-width="0.5" stroke-dasharray="1.6 1.4"/>`;
+      s+=`<text x="0" y="0" font-size="6" text-anchor="middle" dominant-baseline="central" fill="rgba(255,255,255,0.72)" font-family="Arial, sans-serif">+</text>`;
+    }
     s+=`</g>`;
   });
   return s+`</svg>`;
