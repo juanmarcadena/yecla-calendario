@@ -17,10 +17,11 @@ jobs:
         with:
           node-version: 22
       - run: node .github/scripts/scrape-league.mjs
+      - run: node .github/scripts/scrape-players.mjs
       - name: Commit if changed
         run: |
           git config user.name "peyoteros-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add league.json
+          git add league.json players.json
           git diff --staged --quiet || git commit -m "Update league table [skip ci]" -m "Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
           git push
